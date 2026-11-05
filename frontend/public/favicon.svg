@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 28" fill="none" role="img" aria-label="TRAÇO">
-  <!-- Marca TRAÇO: um único traço âmbar desenha o perfil de um carro, do ponto de partida (o pedido) à chegada (o contrato). -->
-  <circle cx="5" cy="21" r="2.6" fill="#FF8F1F"/>
-  <path d="M9 21H17C22 21 23.5 11.5 31 9.5C38.5 7.5 46 10.5 51 15.5L54.5 19C55.6 20.1 57.1 21 58.7 21H61"
-        stroke="#FF8F1F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" role="img" aria-label="Arredor">
+  <!-- Símbolo ARREDOR: dois enquadramentos abertos (saída e chegada) em volta de um ponto, o próximo lugar. -->
+  <rect width="32" height="32" rx="8" fill="#FFF4E6"/>
+  <path d="M6 15V10.5A4.5 4.5 0 0 1 10.5 6H16" stroke="#352A25" stroke-width="3" stroke-linecap="round"/>
+  <path d="M26 17v4.5a4.5 4.5 0 0 1-4.5 4.5H16" stroke="#352A25" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="16" cy="16" r="3.4" fill="#A64132"/>
 </svg>

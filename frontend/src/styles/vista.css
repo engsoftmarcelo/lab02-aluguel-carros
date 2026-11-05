@@ -1,0 +1,695 @@
+/* =============================== Tudo à vista — fotos, passaporte, folha de valores =============================== */
+/* Princípio: a expressão (foto, linha de luz) fica no enquadramento; valores e estados ficam em superfícies estáveis. */
+
+/* Foto ilustrativa do modelo: enquadramento que se abre (assinatura ARREDOR) */
+.foto-carro {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--azul), #eef3f5);
+  isolation: isolate;
+}
+
+.foto-carro img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: moldura-abre 900ms var(--ease-out) both;
+  transition: transform 700ms var(--ease-out);
+}
+
+@keyframes moldura-abre {
+  from {
+    clip-path: inset(10% 14% 10% 14% round 28px);
+    transform: scale(1.08);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 0);
+    transform: scale(1);
+  }
+}
+
+/* canto da moldura: duas linhas terracota que "seguram" a foto */
+.foto-carro::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  border-left: 2px solid var(--on-accent);
+  border-bottom: 2px solid var(--on-accent);
+  border-bottom-left-radius: 10px;
+  opacity: 0.9;
+  filter: drop-shadow(0 1px 2px rgba(53, 42, 37, 0.35));
+  transition: width var(--d-panel) var(--ease-out), height var(--d-panel) var(--ease-out);
+}
+
+.foto-carro--card {
+  aspect-ratio: 16 / 10;
+}
+
+.foto-carro--capa {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-moldura);
+}
+
+.foto-carro--mini {
+  width: 88px;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px 3px 12px 3px;
+  flex-shrink: 0;
+}
+
+.foto-carro--mini::after {
+  display: none;
+}
+
+.foto-carro__rotulo {
+  position: absolute;
+  right: var(--s-2);
+  bottom: var(--s-2);
+  z-index: 3;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 250, 243, 0.92);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.foto-carro--traco {
+  display: grid;
+  place-items: center;
+}
+
+.foto-carro--traco::after {
+  border-color: var(--accent);
+}
+
+.foto-carro__traco {
+  width: 62%;
+  color: var(--accent);
+  opacity: 0.75;
+}
+
+/* Card de carro com foto */
+.carro-op {
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+}
+
+.carro-op__corpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-4) var(--s-5) var(--s-5);
+}
+
+.carro-op .carro-op__base {
+  margin-top: var(--s-2);
+}
+
+.carro-op:hover .foto-carro img,
+.carro-op:focus-visible .foto-carro img {
+  transform: scale(1.04);
+}
+
+.carro-op:hover .foto-carro::after,
+.carro-op:focus-visible .foto-carro::after,
+.carro-op[aria-pressed='true'] .foto-carro::after {
+  width: 44px;
+  height: 44px;
+}
+
+.carro-op__check {
+  z-index: 4;
+  width: 28px;
+  height: 28px;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.85);
+}
+
+/* Lista de pedidos com miniatura */
+.linha-item--foto {
+  grid-template-columns: auto 1fr auto;
+}
+
+@media (max-width: 640px) {
+  .linha-item--foto {
+    grid-template-columns: auto 1fr;
+  }
+
+  .linha-item--foto .linha-item__direita {
+    grid-column: 1 / -1;
+  }
+
+  .foto-carro--mini {
+    width: 72px;
+  }
+}
+
+/* Passaporte do pedido */
+.passaporte {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-5);
+  margin-bottom: var(--s-4);
+}
+
+@media (min-width: 700px) {
+  .passaporte {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+  }
+}
+
+.passaporte__carro,
+.foco__carro {
+  margin-top: var(--s-2);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  line-height: 0.95;
+}
+
+.passaporte__carro span,
+.foco__carro span {
+  display: block;
+  color: var(--accent);
+}
+
+.passaporte__meta,
+.foco__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-3);
+  margin-top: var(--s-3);
+  color: var(--text-soft);
+  font-size: var(--fs-small);
+}
+
+.passaporte__linha {
+  margin-top: var(--s-5);
+}
+
+/* Folha de valores: total primeiro, composição depois */
+.folha {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.folha__total {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px dashed var(--line-strong);
+}
+
+.folha__numero {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 5vw, 3.25rem);
+  line-height: 1;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.folha__linhas {
+  display: grid;
+  gap: var(--s-3);
+  margin: 0;
+}
+
+.folha__linhas div {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr;
+  gap: var(--s-3);
+  align-items: baseline;
+}
+
+.folha__linhas dt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.folha__linhas dd {
+  margin: 0;
+}
+
+@media (max-width: 479px) {
+  .folha__linhas div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+/* Definido × falta × próximo passo */
+.jornada__colunas {
+  display: grid;
+  gap: var(--s-4);
+}
+
+@media (min-width: 640px) {
+  .jornada__colunas {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.jornada__titulo {
+  margin-bottom: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.jornada__lista {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.jornada__lista li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-2);
+  font-size: var(--fs-small);
+}
+
+.jornada__lista svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.jornada__ok {
+  color: var(--status-aprovado);
+}
+
+.jornada__pendente {
+  color: var(--status-em-analise);
+}
+
+.jornada__nada {
+  font-size: var(--fs-small);
+}
+
+.jornada__proximo,
+.foco__proximo {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border-left: 2px solid var(--accent);
+  background: var(--accent-soft);
+  font-size: var(--fs-small);
+}
+
+.jornada__proximo {
+  margin-top: var(--s-4);
+}
+
+.jornada__proximo svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--accent);
+}
+
+/* A linha do tempo se desenha até a etapa atual (só animação de entrada; o estado já está no DOM) */
+.linha-tempo--animar .linha-tempo__etapa:not(:last-child)::after {
+  transform-origin: left;
+  animation: traco-desenha 520ms var(--ease-out) both;
+  animation-delay: calc(var(--i) * 160ms + 120ms);
+}
+
+.linha-tempo--animar .linha-tempo__no {
+  animation: no-acende 360ms var(--ease-out) both;
+  animation-delay: calc(var(--i) * 160ms);
+}
+
+.linha-tempo--animar .linha-tempo__etapa--atual .linha-tempo__no {
+  animation: no-acende 360ms var(--ease-out) both, pulso-no 2s var(--ease-in-out) infinite;
+  animation-delay: calc(var(--i) * 160ms), calc(var(--i) * 160ms + 400ms);
+}
+
+@keyframes traco-desenha {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes no-acende {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Painel do cliente: pedido em foco */
+.foco {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--surface-1), #fbefe2);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color var(--d-ui) var(--ease-ui), box-shadow var(--d-panel) var(--ease-ui);
+}
+
+.foco:hover {
+  border-color: rgba(166, 65, 50, 0.5);
+  box-shadow: 0 24px 80px rgba(166, 65, 50, 0.08);
+}
+
+.foco:hover .foto-carro img {
+  transform: scale(1.03);
+}
+
+.foco__foto.foto-carro--capa {
+  border-radius: 0;
+  aspect-ratio: 16 / 10;
+}
+
+@media (min-width: 900px) {
+  .foco {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  }
+
+  .foco__foto.foto-carro--capa {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 380px;
+  }
+}
+
+.foco__corpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  padding: var(--s-5);
+}
+
+@media (min-width: 900px) {
+  .foco__corpo {
+    padding: var(--s-6);
+  }
+}
+
+.foco__topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+
+.foco__carro,
+.foco__meta {
+  margin-top: 0;
+}
+
+.foco__total {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.foco__numero {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+
+.foco__proximo {
+  display: block;
+}
+
+.foco__abrir {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.foco__abrir svg {
+  transition: transform var(--d-ui) var(--ease-ui);
+}
+
+.foco:hover .foco__abrir svg {
+  transform: translateX(3px);
+}
+
+.kpi--compacto {
+  min-height: 0;
+}
+
+/* Convite (sem pedidos) */
+.convite {
+  display: grid;
+  gap: var(--s-6);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .convite {
+    grid-template-columns: 1fr 1.1fr;
+  }
+}
+
+.convite__titulo {
+  margin: var(--s-2) 0 var(--s-3);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h3);
+  line-height: 1.15;
+}
+
+.convite__frota {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-2);
+}
+
+.convite__frota .foto-carro {
+  border-radius: var(--radius-md);
+}
+
+/* Wizard com resumo persistente */
+.wizard__layout {
+  display: grid;
+  gap: var(--s-5);
+}
+
+@media (min-width: 1100px) {
+  .wizard__layout--resumo {
+    grid-template-columns: minmax(0, 1fr) 320px;
+    align-items: start;
+  }
+}
+
+.wizard__principal {
+  min-width: 0;
+}
+
+.wizard__escolha {
+  margin-left: auto;
+  align-self: center;
+  font-size: var(--fs-small);
+}
+
+@media (max-width: 640px) {
+  .wizard__escolha {
+    display: none;
+  }
+}
+
+.resumo-pedido {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface-1);
+}
+
+@media (min-width: 1100px) {
+  .resumo-pedido {
+    position: sticky;
+    top: var(--s-6);
+  }
+}
+
+.resumo-pedido__corpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-4) var(--s-5) var(--s-5);
+}
+
+.resumo-pedido__modelo {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.resumo-pedido__linhas {
+  display: grid;
+  gap: var(--s-2);
+  margin: var(--s-3) 0 0;
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-small);
+}
+
+.resumo-pedido__linhas div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.resumo-pedido__linhas dt {
+  color: var(--text-soft);
+}
+
+.resumo-pedido__linhas dd {
+  margin: 0;
+  text-align: right;
+}
+
+.resumo-pedido__total {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid rgba(166, 65, 50, 0.4);
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+}
+
+.resumo-pedido__numero {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.9rem;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+
+.resumo-pedido__vazio {
+  padding: var(--s-5);
+}
+
+.revisao {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.depois {
+  padding: var(--s-4) var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+
+.depois__lista {
+  display: grid;
+  gap: var(--s-3);
+  margin: var(--s-2) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-small);
+}
+
+.depois__lista li {
+  display: flex;
+  gap: var(--s-3);
+}
+
+.depois__n {
+  color: var(--accent);
+}
+
+/* Contratos: miniatura do carro no cabeçalho do documento */
+.contrato {
+  overflow: hidden;
+}
+
+.contrato__foto.foto-carro--card {
+  margin: calc(var(--s-5) * -1) calc(var(--s-5) * -1) 0;
+  aspect-ratio: 21 / 9;
+}
+
+.convite.card {
+  overflow: hidden;
+}
+
+/* Pular para o conteúdo: visível ao receber foco */
+.pular {
+  position: fixed;
+  top: var(--s-3);
+  left: var(--s-3);
+  z-index: 1000;
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform var(--d-ui) var(--ease-ui);
+}
+
+.pular:focus {
+  transform: translateY(0);
+}
+
+/* Carregamento entre rotas (code splitting): um traço de luz correndo */
+.carregando-rota {
+  position: relative;
+  height: 2px;
+  margin: var(--s-6) 0;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.carregando-rota span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 30%;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  box-shadow: 0 0 12px var(--accent-glow);
+  animation: traco-corre 1.1s var(--ease-in-out) infinite;
+}
+
+@keyframes traco-corre {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(340%);
+  }
+}

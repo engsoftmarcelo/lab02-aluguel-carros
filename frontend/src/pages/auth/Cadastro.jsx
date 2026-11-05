@@ -94,7 +94,7 @@ export default function Cadastro() {
   }
 
   const concluir = (usuario) => {
-    toast.sucesso('Conta criada', `Bem-vindo(a) ao TRAÇO, ${usuario.nome.split(' ')[0]}.`)
+    toast.sucesso('Conta criada', `Bem-vindo(a) à Arredor, ${usuario.nome.split(' ')[0]}.`)
     navigate(homeDoPapel(usuario.papel), { replace: true })
   }
 
@@ -150,7 +150,7 @@ export default function Cadastro() {
         <div className="auth__cabecalho">
           <p className="label">Cadastro</p>
           <h1>Criar conta</h1>
-          <p>O acesso ao TRAÇO exige cadastro e login.</p>
+          <p>O acesso à Arredor exige cadastro e login.</p>
         </div>
 
         <div className="abas" role="tablist" aria-label="Tipo de conta" style={{ marginBottom: 'var(--s-5)' }}>

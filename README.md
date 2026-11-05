@@ -1,8 +1,8 @@
-# 🏷️ TRAÇO — Sistema de Aluguel de Carros 👨‍💻
+# 🏷️ Arredor — Sistema de Aluguel de Carros 👨‍💻
 
 > [!NOTE]
 > Sistema web para **efetuar, modificar, cancelar e acompanhar pedidos de aluguel de automóveis**, com análise financeira por **empresas e bancos** parceiros, geração de **contratos** e **crédito bancário** com parcela calculada. Acesso só com cadastro e login.
-> A marca **TRAÇO** nasceu do conceito do projeto: uma única linha de luz âmbar desenha o carro, o caminho do pedido e o contrato no fim dele.
+> A marca **Arredor** parte de uma ideia simples: o carro aproxima você dos lugares, encontros e compromissos da sua vida. Assinatura: **“Seu próximo lugar começa aqui.”** O símbolo são dois enquadramentos abertos (saída e chegada) em volta de um ponto, o próximo lugar.
 
 <table>
   <tr>
@@ -13,7 +13,7 @@
     </td>
     <td>
       <div align="center">
-        <img src="frontend/public/favicon.svg" alt="Logo TRAÇO" width="120px"/>
+        <img src="frontend/public/favicon.svg" alt="Símbolo Arredor" width="120px"/>
       </div>
     </td>
   </tr>
@@ -23,14 +23,14 @@
 
 ## 🚧 Status do Projeto
 
-[![Versão](https://img.shields.io/badge/Versão-v1.0.0-FF8F1F?style=for-the-badge)](https://github.com/engsoftmarcelo/lab02-aluguel-carros)
-![Java](https://img.shields.io/badge/Java-25-FF8F1F?style=for-the-badge&logo=openjdk&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.9-FF8F1F?style=for-the-badge&logo=springboot&logoColor=white)
-![Maven](https://img.shields.io/badge/Maven-3.10-FF8F1F?style=for-the-badge&logo=apachemaven&logoColor=white)
-![React](https://img.shields.io/badge/React-19.3-FF8F1F?style=for-the-badge&logo=react&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-8.3-FF8F1F?style=for-the-badge&logo=vite&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL_17-FF8F1F?style=for-the-badge&logo=supabase&logoColor=white)
-![Testes](https://img.shields.io/badge/JUnit-34_testes_ok-FF8F1F?style=for-the-badge&logo=junit5&logoColor=white)
+[![Versão](https://img.shields.io/badge/Versão-v1.0.0-A64132?style=for-the-badge)](https://github.com/engsoftmarcelo/lab02-aluguel-carros)
+![Java](https://img.shields.io/badge/Java-25-A64132?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.9-A64132?style=for-the-badge&logo=springboot&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-3.10-A64132?style=for-the-badge&logo=apachemaven&logoColor=white)
+![React](https://img.shields.io/badge/React-19.3-A64132?style=for-the-badge&logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-8.3-A64132?style=for-the-badge&logo=vite&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL_17-A64132?style=for-the-badge&logo=supabase&logoColor=white)
+![Testes](https://img.shields.io/badge/JUnit-34_testes_ok-A64132?style=for-the-badge&logo=junit5&logoColor=white)
 ![GitHub last commit](https://img.shields.io/github/last-commit/engsoftmarcelo/lab02-aluguel-carros?style=for-the-badge&logo=clockify)
 
 ✅ **Concluído** — todos os requisitos do enunciado implementados e testados (fluxo completo cliente → empresa → banco → contrato).
@@ -77,16 +77,16 @@
 
 **Por que existe.** O enunciado do LAB02 pede um sistema de apoio à gestão de aluguéis de automóveis que permita **efetuar, cancelar e modificar pedidos pela Internet**, com análise financeira feita por **agentes** (empresas e bancos) antes da execução do contrato.
 
-**Que problema resolve.** Em uma locadora tradicional, o pedido, a análise de crédito e o contrato acontecem em canais separados. O TRAÇO junta tudo em **um único fluxo rastreável**:
+**Que problema resolve.** Em uma locadora tradicional, o pedido, a análise de crédito e o contrato acontecem em canais separados. A Arredor junta tudo em **um único fluxo rastreável**, com tudo à vista:
 
-1. o **cliente** se cadastra (RG, CPF, profissão e até **3 rendimentos**), escolhe um carro e as datas, e vê o **valor estimado** na hora;
+1. o **cliente** se cadastra (RG, CPF, profissão e até **3 rendimentos**), escolhe um carro e as datas, e vê o **total do período antes de enviar** (diárias × valor da diária, sem taxas extras e sem cobrança no pedido);
 2. o pedido entra **Em análise**; uma **empresa** ou **banco** vê o perfil financeiro do cliente (renda total e quanto o aluguel compromete dela), registra um **parecer** e **aprova** ou **reprova**;
 3. o pedido aprovado vira **contrato**, que define de quem o carro passa a ser (**cliente, empresa ou banco**). Se quem gera o contrato é um **banco**, ele pode conceder **crédito** com a parcela calculada pela **Tabela Price**;
-4. o cliente acompanha tudo numa **linha do tempo** (o "traço" do pedido).
+4. o cliente acompanha tudo no **passaporte do pedido**: foto do carro, linha do tempo, valores e um quadro com **o que já está definido, o que ainda falta e o próximo passo**.
 
 **Contexto.** Projeto acadêmico (Engenharia de Software, PUC Minas). O foco avaliado é a **adequação aos requisitos** e o **alinhamento entre modelo (classes e arquitetura) e código**. Por isso a modelagem tem duas versões e um changelog.
 
-**Diferencial.** Além do sistema completo, o frontend tem identidade visual própria e uma landing cinematográfica: o carro conceito (gerado no Google Flow) **gira conforme o scroll**, e um wireframe **vira carro** na seção de tecnologia. Tudo com versão para movimento reduzido e QA de acessibilidade.
+**Diferencial.** Além do sistema completo, o frontend tem identidade visual própria (direção “Quintal expandido”: creme, terracota, café e azul acinzentado; Fraunces nos títulos e Source Sans 3 na interface). A **fotografia real** de cada modelo acompanha o carro do catálogo ao pedido e ao contrato, em **molduras que se abrem** ao aparecer. A clareza é a assinatura: total primeiro, estimativa separada de contrato e cada status explicado. Tudo com versão para movimento reduzido e QA de acessibilidade.
 
 ---
 
@@ -99,8 +99,9 @@
 - 🔎 **Análise pelos agentes:** fila filtrada por status, perfil financeiro do cliente e **parecer obrigatório** para aprovar ou reprovar.
 - 📄 **Contratos:** gerados a partir de pedidos aprovados; registram a **propriedade do automóvel** (cliente, empresa ou banco).
 - 🏦 **Contrato de crédito:** somente **bancos** concedem; parcela calculada ao vivo pela **Tabela Price**.
-- 📈 **Painéis:** contadores por status e gráfico (Recharts) para o agente; linha do tempo do último pedido para o cliente.
-- 🎬 **Landing cinematográfica:** scroll-scrub em canvas (158 + 111 quadros), reveal de títulos, contadores, frota em carrossel com pin e tilt 3D.
+- 📈 **Painéis:** contadores por status e gráfico (Recharts) para o agente; para o cliente, o **pedido em foco** (foto, situação, total e próximo passo) antes dos números.
+- 🧾 **Tudo à vista:** passaporte do pedido com total do período, composição, “já está definido × ainda falta × próximo passo” por status e, no contrato com crédito, parcela, juros e total pago lado a lado.
+- 🎬 **Landing editorial:** colagem de fotos em molduras que se abrem, passaporte de exemplo que avança de status conforme o scroll, frota com fotos reais e reveal de títulos.
 - ♿ **Acessibilidade:** 0 violações no axe-core, foco visível, alvos de toque ≥ 44 px e versão completa para `prefers-reduced-motion`.
 
 ---
@@ -111,8 +112,8 @@
 
 * **Framework/Biblioteca:** React 19.3 + React Router 7.18
 * **Linguagem:** JavaScript (ES2022+, JSX)
-* **Estilização:** CSS puro com *design tokens* (`src/styles/tokens.css`); fontes Archivo, Geist e Geist Mono (@fontsource, OFL)
-* **Animação:** GSAP 3.15 + ScrollTrigger (scroll-scrub e pins), Lenis 1.3 (scroll suave), Framer Motion 14.9 (transições de UI)
+* **Estilização:** CSS puro com *design tokens* (`src/styles/tokens.css`); fontes Fraunces e Source Sans 3 (@fontsource, OFL)
+* **Animação:** GSAP 3.15 + ScrollTrigger (molduras e passaporte guiados pelo scroll), Lenis 1.3 (scroll suave), Framer Motion 14.9 (transições de UI)
 * **Gerenciamento de Estado:** Context API (`AuthContext`, `ToastContext`) + hook `useCarregar`
 * **HTTP e gráficos:** Axios 1.21 (interceptor JWT) e Recharts 3.10
 * **Ícones:** lucide-react
@@ -133,7 +134,8 @@
 * **Cloud (banco):** Supabase (RLS ativo em todas as tabelas; o backend acessa como dono)
 * **Modelagem:** PlantUML 1.2026
 * **QA:** Playwright + axe-core (capturas em 360, 768 e 1440 px)
-* **Mídia:** Google Flow (Veo/Imagen) + ffmpeg (conversão dos vídeos em sequências WebP)
+* **Mídia:** fotos do Wikimedia Commons (licenças CC) tratadas com ffmpeg (WebP em 720 e 1400 px)
+* **Desempenho:** rotas carregadas sob demanda (`React.lazy`): o JS inicial caiu de ~1.080 kB para ~228 kB
 
 ---
 
@@ -383,16 +385,16 @@ curl http://localhost:8080/api/dashboard/resumo -H "Authorization: Bearer <token
 │
 ├── /frontend                     # ⚛️ Subsistema "Construção Dinâmica das Páginas Web" (React + Vite)
 │   ├── .env.example              # 🧩 VITE_API_URL
-│   ├── /public                   # 📂 favicon, /frames (quadros WebP), /img, /media
+│   ├── /public                   # 📂 favicon, /frota (fotos WebP dos modelos)
 │   └── /src
 │       ├── /pages                # 📄 landing/, auth/, cliente/, agente/, Contratos
-│       ├── /components           # 🧱 ui/, layout/, pedido/, forms/
+│       ├── /components           # 🧱 ui/, layout/, pedido/, carro/ (FotoCarro), forms/
 │       ├── /context              # 🔐 AuthContext, ToastContext
 │       ├── /hooks                # 🎣 useCarregar
 │       ├── /routes               # 🚦 RotaProtegida (por papel)
 │       ├── /services             # 🔌 api.js (axios + JWT), sessao.js
-│       ├── /styles               # 🎨 tokens, base, ui, shell, auth, app, landing
-│       └── /utils                # 🛠️ formato (moeda, datas, máscaras, Tabela Price)
+│       ├── /styles               # 🎨 tokens, base, ui, shell, auth, app, vista, landing
+│       └── /utils                # 🛠️ formato, jornada (status), midiaFrota (fotos e créditos)
 │
 └── /docs
     ├── /historias                # 📝 Histórias de usuário
@@ -410,13 +412,13 @@ curl http://localhost:8080/api/dashboard/resumo -H "Authorization: Bearer <token
 
 | Tela | Captura de Tela |
 | :---: | :---: |
-| **Landing: o carro gira com o scroll** | **Landing: wireframe vira carro** |
-| <img src="docs/screenshots/01-landing.jpg" alt="Landing com o carro conceito e o título O carro certo, no traço certo" width="420"> | <img src="docs/screenshots/02-landing-tecnologia.jpg" alt="Seção Por dentro do traço com o wireframe âmbar" width="420"> |
+| **Landing: molduras com fotos reais** | **Landing: tudo à vista** |
+| <img src="docs/screenshots/01-landing.jpg" alt="Abertura da landing com o título Seu próximo lugar começa aqui e fotos de carros em molduras" width="420"> | <img src="docs/screenshots/02-landing-tudo-a-vista.jpg" alt="Seção Tudo à vista com o passaporte de exemplo de um pedido" width="420"> |
 | **Login (com contas de demonstração)** | **Cadastro (cliente ou agente, até 3 rendimentos)** |
 | <img src="docs/screenshots/03-login.jpg" alt="Tela de login" width="420"> | <img src="docs/screenshots/04-cadastro.jpg" alt="Tela de cadastro" width="420"> |
 | **Painel do cliente** | **Novo pedido (wizard em 3 etapas)** |
-| <img src="docs/screenshots/05-painel-cliente.jpg" alt="Painel do cliente com contadores e linha do tempo" width="420"> | <img src="docs/screenshots/06-novo-pedido.jpg" alt="Wizard de novo pedido, escolha do automóvel" width="420"> |
-| **Detalhe do pedido (linha do tempo)** | **Painel do agente (gráfico por status)** |
+| <img src="docs/screenshots/05-painel-cliente.jpg" alt="Painel do cliente com o pedido em foco, foto do carro e próximo passo" width="420"> | <img src="docs/screenshots/06-novo-pedido.jpg" alt="Wizard de novo pedido, escolha do automóvel" width="420"> |
+| **Passaporte do pedido** | **Painel do agente (gráfico por status)** |
 | <img src="docs/screenshots/07-detalhe-pedido-cliente.jpg" alt="Detalhe do pedido do cliente" width="420"> | <img src="docs/screenshots/08-painel-agente.jpg" alt="Painel do agente com KPIs e gráfico" width="420"> |
 | **Análise do pedido (perfil financeiro + parecer)** | **Contratos (com crédito bancário)** |
 | <img src="docs/screenshots/09-analise-pedido-agente.jpg" alt="Análise do pedido pelo agente" width="420"> | <img src="docs/screenshots/10-contratos.jpg" alt="Lista de contratos com crédito" width="420"> |
@@ -452,6 +454,7 @@ Capturas com Playwright + axe-core em 360, 768 e 1440 px, antes e depois das cor
 * 📖 **Banco:** [Supabase — conexão com o banco (pooler)](https://supabase.com/docs/guides/database/connecting-to-postgres) · [Row Level Security](https://supabase.com/docs/guides/database/postgres/row-level-security)
 * 📖 **Front-end:** [React](https://react.dev/reference/react) · [Vite](https://vite.dev/config/) · [React Router](https://reactrouter.com/)
 * 📖 **Animação:** [GSAP ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/) · [Lenis](https://github.com/darkroomengineering/lenis) · [Framer Motion](https://motion.dev/)
+* 📖 **Acessibilidade:** [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
 * 📖 **Modelagem:** [PlantUML](https://plantuml.com/)
 * 📖 **Commits:** [Conventional Commits](https://www.conventionalcommits.org/pt-br/v1.0.0/)
 
@@ -459,10 +462,17 @@ Capturas com Playwright + axe-core em 360, 768 e 1440 px, antes e depois das cor
 
 ## 🖼️ Créditos das Mídias
 
-* **Imagens e vídeos** (carro conceito, wireframe, interior, farol, perfil na chuva e rastros de luz): **gerados com Google Flow (Veo/Imagen)** a partir de prompts próprios. O carro é um **conceito sem marca** e não representa nenhum fabricante. Não foram usadas imagens de bancos como Pexels ou Unsplash.
-* **Fontes:** Archivo, Geist e Geist Mono (SIL Open Font License 1.1).
+* **Fotos dos automóveis** (ilustrativas do modelo; não mostram a unidade, a cor nem o estado do carro alugado), do [Wikimedia Commons](https://commons.wikimedia.org), redimensionadas para WebP e com ajuste leve de contraste e saturação:
+  * BYD Dolphin — [foto](https://commons.wikimedia.org/wiki/File:BYD_DOLPHIN_EV_FRONT.jpg) de Mateusmatsuda, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+  * Toyota Corolla Cross — [foto](https://commons.wikimedia.org/wiki/File:Toyota_Corolla_Cross_Hybrid_1X7A1861.jpg) de Alexander-93, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+  * Jeep Compass — [foto](https://commons.wikimedia.org/wiki/File:Jeep_Compass_(MP)_PHEV_Facelift_1X7A0140.jpg) de Alexander Migl, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+  * Volkswagen Nivus — [foto](https://commons.wikimedia.org/wiki/File:Volkswagen_Nivus_Brazil_front.jpg) de Mateusmatsuda, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+  * Honda Civic — [foto](https://commons.wikimedia.org/wiki/File:2024_Honda_Civic_e-HEV_EL%2B.jpg) de Chanokchon, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+  * Fiat Pulse — [foto](https://commons.wikimedia.org/wiki/File:2024_Fiat_Pulse_1.0_Turbo_200_Audace_(front).jpg) de Just a Man, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+  * As versões adaptadas das fotos CC BY-SA seguem a mesma licença (CC BY-SA 4.0).
+* **Fontes:** Fraunces e Source Sans 3 (SIL Open Font License 1.1).
 * **Ícones:** [lucide](https://lucide.dev) (ISC).
-* **Logo TRAÇO:** criado para este projeto (SVG).
+* **Logo Arredor:** criado para este projeto (SVG). “Arredor” é um nome de trabalho; disponibilidade de marca e domínio não foi verificada.
 
 ---
 

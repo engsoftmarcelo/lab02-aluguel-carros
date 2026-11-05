@@ -12,7 +12,7 @@ function iniciais(nome = '') {
   return ((partes[0]?.[0] || '') + (partes.length > 1 ? partes[partes.length - 1][0] : '')).toUpperCase()
 }
 
-/** Item de navegação com o "traço" âmbar animado marcando a página atual. */
+/** Item de navegação com a marca terracota animada indicando a página atual. */
 function ItemNav({ item, idGrupo }) {
   const Icone = item.icon
   return (

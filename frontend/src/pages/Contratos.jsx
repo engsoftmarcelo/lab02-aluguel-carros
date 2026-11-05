@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Landmark } from 'lucide-react'
 import Card from '../components/ui/Card'
 import Button from '../components/ui/Button'
+import FotoCarro from '../components/carro/FotoCarro'
 import { CarregandoLista, EstadoErro, EstadoVazio } from '../components/ui/Estados'
 import useCarregar from '../hooks/useCarregar'
 import { useAuth } from '../context/AuthContext'
@@ -19,7 +20,7 @@ export default function Contratos() {
         <div>
           <p className="label">{isAgente ? 'Área do agente' : 'Área do cliente'}</p>
           <h1 className="pagina__titulo">Contratos</h1>
-          <p className="pagina__sub">{isAgente ? 'Todos os contratos firmados a partir de pedidos aprovados.' : 'Os aluguéis que chegaram ao fim do traço.'}</p>
+          <p className="pagina__sub">{isAgente ? 'Todos os contratos firmados a partir de pedidos aprovados.' : 'Seus pedidos que viraram contrato, com todas as condições à vista.'}</p>
         </div>
       </div>
 
@@ -38,6 +39,7 @@ export default function Contratos() {
           {contratos.dados.map((c, i) => (
             <motion.div key={c.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}>
               <Card traco className="contrato">
+                <FotoCarro carro={{ marca: c.automovel, modelo: c.automovel }} tamanho="card" sizes="(max-width: 700px) 100vw, 420px" className="contrato__foto" />
                 <div className="contrato__topo">
                   <div>
                     <p className="label">
@@ -86,8 +88,18 @@ export default function Contratos() {
                       {c.credito.parcelas}× {formatarMoeda(c.credito.valorParcela)}
                     </p>
                     <p className="text-soft" style={{ fontSize: 'var(--fs-small)', marginTop: 4 }}>
-                      Financiado {formatarMoeda(c.credito.valorFinanciado)} a {Number(c.credito.taxaJuros).toLocaleString('pt-BR')}% a.m. · total {formatarMoeda(c.credito.totalPago)}
+                      Financiado {formatarMoeda(c.credito.valorFinanciado)} a {Number(c.credito.taxaJuros).toLocaleString('pt-BR')}% a.m. (Tabela Price)
                     </p>
+                    <dl className="folha__linhas" style={{ marginTop: 'var(--s-3)' }}>
+                      <div>
+                        <dt>Total pago</dt>
+                        <dd className="mono">{formatarMoeda(c.credito.totalPago)}</dd>
+                      </div>
+                      <div>
+                        <dt>Custo do crédito</dt>
+                        <dd className="mono">{formatarMoeda(Number(c.credito.totalPago) - Number(c.credito.valorFinanciado))} em juros</dd>
+                      </div>
+                    </dl>
                   </div>
                 ) : (
                   <p className="label">Sem crédito bancário</p>

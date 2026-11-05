@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, CalendarDays, Car, MessageSquareQuote } from 'lucide-react'
+import { ArrowRight, CalendarDays, CircleCheck, CircleDashed, MessageSquareQuote, Navigation, ReceiptText } from 'lucide-react'
 import StatusBadge, { STATUS } from '../ui/StatusBadge'
+import FotoCarro from '../carro/FotoCarro'
+import { codigoPedido, jornadaDoPedido } from '../../utils/jornada'
 import Modal from '../ui/Modal'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
@@ -20,7 +22,8 @@ export function PedidoLinha({ pedido, onAbrir, mostrarCliente, indice = 0 }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: Math.min(indice, 8) * 0.04, ease: [0.16, 1, 0.3, 1] }}
     >
-      <button type="button" className="linha-item" onClick={() => onAbrir(p)}>
+      <button type="button" className="linha-item linha-item--foto" onClick={() => onAbrir(p)}>
+        <FotoCarro carro={p.automovel} tamanho="mini" sizes="96px" />
         <div>
           <p className="linha-item__titulo">
             {p.automovel.marca} {p.automovel.modelo} <span className="placa" style={{ marginLeft: 6 }}>{exibirPlaca(p.automovel.placa)}</span>
@@ -46,50 +49,113 @@ export function PedidoLinha({ pedido, onAbrir, mostrarCliente, indice = 0 }) {
   )
 }
 
-/** Informações do pedido (usado no detalhe do cliente e do agente). */
-export function PedidoInfo({ pedido }) {
+/**
+ * "Folha à vista": total primeiro, composição logo abaixo e o que NÃO existe neste sistema
+ * dito com todas as letras (sem cobrança agora, sem taxas extras). Reusada no wizard.
+ */
+export function FolhaValores({ carro, dataInicio, dataFim, diarias: n, total, contratado }) {
+  return (
+    <div className="folha">
+      <div className="folha__total">
+        <span className="label">{contratado ? 'Total do período · contratado' : 'Total estimado do período'}</span>
+        <span className="folha__numero">{formatarMoeda(total)}</span>
+      </div>
+      <dl className="folha__linhas">
+        <div>
+          <dt>Período</dt>
+          <dd>
+            <span className="nowrap">{formatarData(dataInicio)}</span> → <span className="nowrap">{formatarData(dataFim)}</span>
+          </dd>
+        </div>
+        <div>
+          <dt>Diárias</dt>
+          <dd className="mono">
+            {n} × {formatarMoeda(carro?.valorDiaria)}
+          </dd>
+        </div>
+        <div>
+          <dt>Taxas extras</dt>
+          <dd>Nenhuma. O total é só diárias × valor da diária.</dd>
+        </div>
+        <div>
+          <dt>Cobrança agora</dt>
+          <dd>Nenhuma. Pedido não gera pagamento; as condições finais ficam no contrato.</dd>
+        </div>
+      </dl>
+    </div>
+  )
+}
+
+/** O que já está definido, o que falta e o próximo passo — fiel ao status real. */
+export function QuadroJornada({ status, perspectiva = 'CLIENTE' }) {
+  const j = jornadaDoPedido(status, perspectiva)
+  return (
+    <div className="jornada">
+      <div className="jornada__colunas">
+        <div>
+          <p className="jornada__titulo">Já está definido</p>
+          <ul className="jornada__lista">
+            {j.definido.map((t) => (
+              <li key={t}>
+                <CircleCheck size={16} className="jornada__ok" aria-hidden="true" /> {t}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <p className="jornada__titulo">Ainda falta</p>
+          {j.falta.length ? (
+            <ul className="jornada__lista">
+              {j.falta.map((t) => (
+                <li key={t}>
+                  <CircleDashed size={16} className="jornada__pendente" aria-hidden="true" /> {t}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-soft jornada__nada">Nada pendente neste pedido.</p>
+          )}
+        </div>
+      </div>
+      <p className="jornada__proximo">
+        <Navigation size={16} aria-hidden="true" />
+        <span>
+          <strong>Próximo passo.</strong> {j.proximo}
+        </span>
+      </p>
+    </div>
+  )
+}
+
+/** Passaporte do pedido (detalhe do cliente e do agente): foto, código, andamento e valores à vista. */
+export function PedidoInfo({ pedido, perspectiva = 'CLIENTE' }) {
   const p = pedido
   return (
     <>
-      <div className="bloco">
-        <LinhaDoTempo status={p.status} />
+      <div className="passaporte">
+        <FotoCarro carro={p.automovel} tamanho="capa" prioridade sizes="(max-width: 700px) 100vw, 320px" />
+        <div className="passaporte__dados">
+          <p className="label">Passaporte {codigoPedido(p.id)}</p>
+          <p className="passaporte__carro">
+            {p.automovel.marca} <span>{p.automovel.modelo}</span>
+          </p>
+          <p className="passaporte__meta">
+            <span>{p.automovel.ano}</span>
+            <span className="placa">{exibirPlaca(p.automovel.placa)}</span>
+          </p>
+          <div className="passaporte__linha">
+            <LinhaDoTempo status={p.status} animar />
+          </div>
+        </div>
       </div>
       <div className="bloco">
         <p className="bloco__titulo">
-          <Car size={14} aria-hidden="true" /> Automóvel e período
+          <ReceiptText size={14} aria-hidden="true" /> Valores à vista
         </p>
-        <dl className="info">
-          <div>
-            <dt>Carro</dt>
-            <dd>
-              {p.automovel.marca} {p.automovel.modelo} ({p.automovel.ano})
-            </dd>
-          </div>
-          <div>
-            <dt>Placa</dt>
-            <dd className="mono">{exibirPlaca(p.automovel.placa)}</dd>
-          </div>
-          <div>
-            <dt>Retirada</dt>
-            <dd>{formatarData(p.dataInicio)}</dd>
-          </div>
-          <div>
-            <dt>Devolução</dt>
-            <dd>{formatarData(p.dataFim)}</dd>
-          </div>
-          <div>
-            <dt>Diárias</dt>
-            <dd className="mono">
-              {p.diarias} × {formatarMoeda(p.automovel.valorDiaria)}
-            </dd>
-          </div>
-          <div>
-            <dt>Valor estimado</dt>
-            <dd className="mono accent" style={{ fontWeight: 600 }}>
-              {formatarMoeda(p.valorEstimado)}
-            </dd>
-          </div>
-        </dl>
+        <FolhaValores carro={p.automovel} dataInicio={p.dataInicio} dataFim={p.dataFim} diarias={p.diarias} total={p.valorEstimado} contratado={p.status === 'CONTRATADO'} />
+      </div>
+      <div className="bloco">
+        <QuadroJornada status={p.status} perspectiva={perspectiva} />
       </div>
       {(p.parecer || p.agenteAvaliadorNome) && (
         <div className="bloco">

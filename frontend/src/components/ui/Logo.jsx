@@ -1,27 +1,30 @@
 import { Link } from 'react-router-dom'
 
-/** Marca TRAÇO: um ponto (o pedido) e um traço que desenha o carro (o contrato). */
+/**
+ * Símbolo ARREDOR: dois enquadramentos abertos (saída e chegada) que se encontram
+ * em volta de um ponto — o próximo lugar. Sem volante, chave ou estrada.
+ */
 export function LogoMarca({ className = '' }) {
   return (
-    <svg className={`logo__marca ${className}`} viewBox="0 0 64 28" fill="none" aria-hidden="true">
-      <circle cx="5" cy="21" r="2.6" fill="var(--accent)" />
-      <path
-        d="M9 21H17C22 21 23.5 11.5 31 9.5C38.5 7.5 46 10.5 51 15.5L54.5 19C55.6 20.1 57.1 21 58.7 21H61"
-        stroke="var(--accent)"
-        strokeWidth="2.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        pathLength="80"
-      />
+    <svg className={`logo__marca ${className}`} viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M4 15V9.5A5.5 5.5 0 0 1 9.5 4H16" stroke="currentColor" strokeWidth="3" strokeLinecap="round" pathLength="24" />
+      <path d="M28 17v5.5a5.5 5.5 0 0 1-5.5 5.5H16" stroke="currentColor" strokeWidth="3" strokeLinecap="round" pathLength="24" />
+      <circle cx="16" cy="16" r="3.4" fill="var(--accent)" />
     </svg>
   )
 }
 
-export default function Logo({ to = '/', animado = false, semNome = false }) {
+/** Marca + descritor "Aluguel de carros" sempre por perto (evita confusão com hospedagem). */
+export default function Logo({ to = '/', animado = false, semNome = false, descritor = true }) {
   return (
-    <Link to={to} className={`logo ${animado ? 'logo--animado' : ''}`} aria-label="TRAÇO, página inicial">
+    <Link to={to} className={`logo ${animado ? 'logo--animado' : ''}`} aria-label="Arredor, aluguel de carros: página inicial">
       <LogoMarca />
-      {!semNome && <span className="logo__nome">TRAÇO</span>}
+      {!semNome && (
+        <span className="logo__texto">
+          <span className="logo__nome">arredor</span>
+          {descritor && <span className="logo__descritor">Aluguel de carros</span>}
+        </span>
+      )}
     </Link>
   )
 }

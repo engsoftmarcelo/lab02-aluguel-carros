@@ -1,0 +1,651 @@
+/* ============ Landing ARREDOR — editorial, fotografia em molduras que se abrem ============ */
+.landing-a {
+  background: var(--bg);
+  overflow-x: clip;
+}
+
+/* reveal palavra por palavra (efeitos.jsx) */
+.mascara {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.palavra {
+  display: inline-block;
+}
+
+.palavra.accent {
+  font-style: italic;
+  font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144;
+}
+
+.secao {
+  position: relative;
+  padding: var(--s-10) 0;
+}
+
+.secao--azul {
+  background: var(--azul);
+}
+
+.secao__titulo {
+  font-size: var(--fs-h1);
+  max-width: 16ch;
+  margin: var(--s-4) 0 var(--s-8);
+}
+
+@media (max-width: 767px) {
+  .secao {
+    padding: var(--s-9) 0;
+  }
+
+  .secao__titulo {
+    margin-bottom: var(--s-7);
+  }
+}
+
+/* ---------- Cabeçalho ---------- */
+.cab {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  transition: background var(--d-panel) var(--ease-ui), box-shadow var(--d-panel) var(--ease-ui);
+}
+
+.cab--solido {
+  background: rgba(255, 244, 230, 0.9);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.cab__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+  min-height: 76px;
+}
+
+.cab__nav {
+  display: none;
+  gap: var(--s-5);
+  margin-left: auto;
+}
+
+.cab__nav a {
+  color: var(--text);
+  font-weight: 600;
+  font-size: var(--fs-small);
+}
+
+.cab__nav a:hover {
+  color: var(--accent);
+}
+
+.cab__acoes {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-left: auto;
+}
+
+.cab__menu {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface-1);
+  cursor: pointer;
+}
+
+@media (max-width: 1023px) {
+  .cab__nav--aberto {
+    position: absolute;
+    top: 76px;
+    left: var(--margin);
+    right: var(--margin);
+    display: grid;
+    gap: 0;
+    padding: var(--s-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--surface-1);
+    box-shadow: var(--sombra-alta);
+  }
+
+  .cab__nav--aberto a {
+    padding: var(--s-3) var(--s-4);
+    font-size: var(--fs-body);
+  }
+}
+
+@media (max-width: 520px) {
+  .cab__entrar {
+    display: none;
+  }
+
+  .cab .logo__descritor {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cab__nav {
+    display: flex;
+  }
+
+  .cab__acoes {
+    margin-left: var(--s-5);
+  }
+
+  .cab__menu {
+    display: none;
+  }
+}
+
+/* ---------- 01 Abertura ---------- */
+.abertura {
+  padding: calc(76px + var(--s-7)) 0 var(--s-9);
+}
+
+.abertura__grade {
+  display: grid;
+  gap: var(--s-8);
+  align-items: center;
+}
+
+@media (min-width: 980px) {
+  .abertura {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .abertura__grade {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+}
+
+.abertura__titulo {
+  margin: var(--s-4) 0 var(--s-5);
+  font-size: clamp(3rem, 6.6vw, 6.25rem);
+  line-height: 0.98;
+  max-width: 11ch;
+}
+
+.abertura__sub {
+  max-width: 46ch;
+  font-size: var(--fs-body-lg);
+  color: var(--text-soft);
+}
+
+.abertura__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+}
+
+.abertura__provas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-6);
+  margin: var(--s-7) 0 0;
+  padding: var(--s-5) 0 0;
+  border-top: 1px solid var(--line-strong);
+  list-style: none;
+  color: var(--text-soft);
+  font-size: var(--fs-small);
+}
+
+.abertura__provas strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+/* colagem de molduras */
+.abertura__colagem {
+  position: relative;
+  padding: 0 0 var(--s-8) var(--s-7);
+}
+
+.abertura__principal.foto-carro--capa {
+  aspect-ratio: 6 / 5;
+  border-radius: 120px 20px 120px 20px;
+  box-shadow: var(--sombra-alta);
+}
+
+.abertura__principal img {
+  animation: none;
+}
+
+.abertura__secundaria.foto-carro--capa {
+  position: absolute;
+  left: 0;
+  bottom: var(--s-6);
+  width: 42%;
+  aspect-ratio: 1;
+  border-radius: 20px 64px 20px 64px;
+  border: 6px solid var(--bg);
+  box-shadow: var(--sombra-alta);
+}
+
+.abertura__secundaria img {
+  animation: none;
+}
+
+.abertura__ficha {
+  position: absolute;
+  right: calc(var(--s-4) * -1);
+  bottom: 0;
+  width: min(300px, 70%);
+  padding: var(--s-4) var(--s-5);
+  border-radius: 20px 6px 20px 6px;
+  background: var(--surface-1);
+  box-shadow: var(--sombra-alta);
+}
+
+.abertura__ficha-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+}
+
+.abertura__ficha-carro {
+  margin-top: var(--s-3);
+  font-weight: 700;
+}
+
+.abertura__ficha-total {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.abertura__ficha-sub {
+  font-size: 0.8125rem;
+  color: var(--text-soft);
+}
+
+@media (max-width: 979px) {
+  .abertura__colagem {
+    padding-left: var(--s-5);
+  }
+
+  .abertura__ficha {
+    right: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .abertura__principal.foto-carro--capa {
+    border-radius: 72px 14px 72px 14px;
+  }
+
+  .abertura__secundaria.foto-carro--capa {
+    width: 38%;
+    border-width: 4px;
+  }
+
+  .abertura__ficha {
+    width: 76%;
+    padding: var(--s-3) var(--s-4);
+  }
+
+  .abertura__ficha-total {
+    font-size: 1.6rem;
+  }
+}
+
+/* ---------- 01 Como funciona ---------- */
+.passos-a {
+  display: grid;
+  gap: var(--s-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 700px) {
+  .passos-a {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .passos-a {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.passo-a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-6) var(--s-5);
+  border-radius: var(--radius-moldura);
+  background: var(--surface-1);
+  box-shadow: var(--sombra);
+}
+
+.passo-a__n {
+  position: absolute;
+  top: var(--s-5);
+  right: var(--s-5);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--text-mute);
+}
+
+.passo-a__icone {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 18px 4px 18px 4px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.passo-a__titulo {
+  margin-top: var(--s-3);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.1;
+}
+
+/* ---------- 03 Frota ---------- */
+.frota-a__topo {
+  display: grid;
+  gap: var(--s-4);
+  align-items: end;
+  margin-bottom: var(--s-7);
+}
+
+.frota-a__topo .secao__titulo {
+  margin-bottom: 0;
+}
+
+@media (min-width: 900px) {
+  .frota-a__topo {
+    grid-template-columns: 1.4fr 1fr;
+  }
+}
+
+.frota-a__nota {
+  max-width: 44ch;
+}
+
+.frota-a {
+  display: grid;
+  gap: var(--s-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+}
+
+.frota-a__card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-3);
+  border-radius: 26px 8px 26px 8px;
+  background: var(--surface-1);
+  box-shadow: var(--sombra);
+  transition: transform var(--d-panel) var(--ease-out), box-shadow var(--d-panel) var(--ease-out);
+}
+
+.frota-a__card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-alta);
+}
+
+.frota-a__moldura {
+  overflow: hidden;
+  border-radius: 20px 4px 20px 4px;
+}
+
+.frota-a__moldura img {
+  animation: none;
+}
+
+.frota-a__card:hover .foto-carro img {
+  transform: scale(1.05);
+}
+
+.frota-a__dados {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-3) var(--s-2);
+}
+
+.frota-a__modelo {
+  margin-top: 2px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1.05;
+}
+
+.frota-a__preco {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.frota-a__diaria {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.frota-a__rodape {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s-2);
+  margin: var(--s-2) var(--s-3) var(--s-2);
+  padding-top: var(--s-3);
+  border-top: 1px dashed var(--line-strong);
+  font-size: var(--fs-small);
+}
+
+.frota-a__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--s-7);
+}
+
+/* ---------- 04 Parceiros ---------- */
+.parceiros-a {
+  display: grid;
+  gap: var(--s-9);
+}
+
+.parceiro-a {
+  display: grid;
+  gap: var(--s-6);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .parceiro-a {
+    grid-template-columns: 1.1fr 1fr;
+    gap: var(--s-8);
+  }
+
+  .parceiro-a--inverso .parceiro-a__moldura {
+    order: 2;
+  }
+}
+
+.parceiro-a__moldura {
+  overflow: hidden;
+  border-radius: 90px 16px 90px 16px;
+  box-shadow: var(--sombra-alta);
+}
+
+.parceiro-a__moldura .foto-carro--capa {
+  border-radius: 0;
+  aspect-ratio: 16 / 11;
+}
+
+.parceiro-a__moldura img {
+  animation: none;
+}
+
+.parceiro-a__tipo {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.parceiro-a__titulo {
+  margin: var(--s-3) 0 var(--s-5);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h2);
+  line-height: 1.05;
+  max-width: 16ch;
+}
+
+.parceiro-a__lista {
+  display: grid;
+  gap: var(--s-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.parceiro-a__lista li {
+  position: relative;
+  padding-left: var(--s-6);
+}
+
+.parceiro-a__lista li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 14px;
+  height: 14px;
+  border-left: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  border-bottom-left-radius: 5px;
+}
+
+.parceiros-a__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--s-8);
+}
+
+/* ---------- 05 Convite ---------- */
+.convite-a {
+  padding: var(--s-9) 0 var(--s-10);
+}
+
+.convite-a__grade {
+  display: grid;
+  gap: var(--s-7);
+  align-items: center;
+  padding: var(--s-5);
+  border-radius: 48px 12px 48px 12px;
+  background: var(--cafe);
+  color: var(--creme);
+}
+
+@media (min-width: 900px) {
+  .convite-a__grade {
+    grid-template-columns: 1fr 1fr;
+    padding: var(--s-6);
+  }
+}
+
+.convite-a__moldura {
+  overflow: hidden;
+  border-radius: 36px 8px 36px 8px;
+}
+
+.convite-a__moldura .foto-carro--capa {
+  border-radius: 0;
+}
+
+.convite-a__moldura img {
+  animation: none;
+}
+
+.convite-a__texto {
+  padding: var(--s-4);
+}
+
+.convite-a .label,
+.convite-a .text-soft {
+  color: #e9dccb;
+}
+
+.convite-a .accent {
+  color: #f0a48f;
+}
+
+.convite-a__titulo {
+  margin: var(--s-4) 0 var(--s-5);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1;
+}
+
+.convite-a .btn--ghost {
+  color: var(--creme);
+}
+
+/* ---------- Rodapé ---------- */
+.rodape-a {
+  padding: var(--s-8) 0 var(--s-7);
+  border-top: 1px solid var(--line);
+}
+
+.rodape-a__grade {
+  display: grid;
+  gap: var(--s-6);
+}
+
+@media (min-width: 900px) {
+  .rodape-a__grade {
+    grid-template-columns: 1.2fr 1fr 1.4fr;
+  }
+}
+
+.rodape-a__links {
+  display: grid;
+  gap: var(--s-2);
+  align-content: start;
+}
+
+.rodape-a__links a {
+  color: var(--text);
+  font-weight: 600;
+  min-height: 24px;
+}
+
+.rodape-a__creditos {
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+}

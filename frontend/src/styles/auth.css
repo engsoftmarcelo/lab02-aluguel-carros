@@ -9,28 +9,44 @@
 }
 
 .auth__visual {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  opacity: 0.35;
+  display: none;
 }
 
-.auth__video {
+.auth__moldura {
   position: absolute;
-  inset: 0;
+  inset: 63% var(--s-7) var(--s-6);
+  margin: 0;
+  overflow: hidden;
+  border-radius: 56px 12px 56px 12px;
+}
+
+.auth__moldura img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 40% 62%;
+  animation: moldura-abre 1200ms var(--ease-out) both;
 }
 
-/* escurece e "afunda" o vídeo no preto */
-.auth__visual::after {
+.auth__moldura::after {
+  /* véu creme para o texto ler bem sobre a foto */
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(120% 80% at 30% 40%, transparent 0%, rgba(0, 0, 0, 0.55) 55%, #000 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.75));
+  background: linear-gradient(180deg, rgba(53, 42, 37, 0) 60%, rgba(53, 42, 37, 0.25) 100%);
+}
+
+.auth__selo {
+  position: absolute;
+  right: calc(var(--s-5) + var(--s-5));
+  bottom: calc(var(--s-5) + var(--s-5));
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--radius-pill);
+  background: var(--surface-1);
+  box-shadow: var(--sombra);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-style: italic;
 }
 
 .auth__texto {
@@ -43,13 +59,9 @@
 }
 
 .auth__titulo {
-  font-size: clamp(2.75rem, 5vw, 5.25rem);
-  line-height: 1; /* espaço para a cedilha do Ç */
-  max-width: 11ch;
-}
-
-.auth__titulo span {
-  display: block;
+  font-size: clamp(2.75rem, 4.6vw, 4.75rem);
+  line-height: 1.02;
+  max-width: 12ch;
 }
 
 .auth__passos {
@@ -69,7 +81,7 @@
   left: 4px;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, var(--accent), rgba(255, 143, 31, 0.15));
+  background: linear-gradient(90deg, var(--accent), rgba(166, 65, 50, 0.15));
   transform-origin: left;
   animation: traco-entrar 1400ms var(--ease-in-out) 300ms both;
 }
@@ -143,10 +155,8 @@
 
 .auth__cabecalho h1 {
   font-family: var(--font-display);
-  font-stretch: 125%;
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(1.75rem, 3vw, 2.25rem);
-  text-transform: uppercase;
   letter-spacing: -0.01em;
   line-height: 1;
   margin-top: var(--s-2);
@@ -364,9 +374,8 @@
   }
 
   .auth__visual {
+    display: block;
     position: relative;
-    inset: auto;
-    opacity: 1;
     grid-column: 1;
     grid-row: 1;
   }
@@ -375,6 +384,9 @@
     display: flex;
     grid-column: 1;
     grid-row: 1;
+    justify-content: flex-start;
+    gap: var(--s-7);
+    padding: var(--s-7) var(--s-7) 0;
   }
 
   .auth__painel {
@@ -383,7 +395,7 @@
     padding: var(--s-7) var(--s-7);
     border-left: 1px solid var(--line);
     background:
-      radial-gradient(80% 60% at 100% 0%, rgba(255, 143, 31, 0.08), transparent 60%),
+      radial-gradient(80% 60% at 100% 0%, rgba(166, 65, 50, 0.08), transparent 60%),
       var(--bg);
     max-height: 100vh;
     overflow-y: auto;

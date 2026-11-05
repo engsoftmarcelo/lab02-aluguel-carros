@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { LogOut } from 'lucide-react'
@@ -15,7 +16,7 @@ export default function AppShell() {
 
   return (
     <div className="shell">
-      <a href="#conteudo" className="sr-only">
+      <a href="#conteudo" className="pular">
         Pular para o conteúdo
       </a>
       <Sidebar />
@@ -48,7 +49,15 @@ export default function AppShell() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
           >
-            <Outlet />
+            <Suspense
+              fallback={
+                <div className="carregando-rota" role="status" aria-label="Carregando">
+                  <span />
+                </div>
+              }
+            >
+              <Outlet />
+            </Suspense>
           </motion.main>
         </AnimatePresence>
       </div>

@@ -206,7 +206,7 @@ export default function PedidosAgente() {
         {aberto && (
           <>
             <PerfilFinanceiro pedido={aberto} />
-            <PedidoInfo pedido={aberto} />
+            <PedidoInfo pedido={aberto} perspectiva="AGENTE" />
             {s === 'EM_ANALISE' && (
               <div className="bloco">
                 <label className="field__label" htmlFor="parecer">

@@ -34,8 +34,10 @@ export default function Modal({ open, onClose, title, subtitle, children, footer
     document.addEventListener('keydown', onKey)
     document.body.style.overflow = 'hidden'
     const t = setTimeout(() => {
-      const alvo = painelRef.current?.querySelector('input, select, textarea, button:not(.modal__fechar)')
-      ;(alvo || painelRef.current)?.focus()
+      // foco inicial: primeiro campo de formulário; sem campos, o próprio painel (nunca um botão destrutivo).
+      // preventScroll: o topo do conteúdo (foto, título) continua visível.
+      const alvo = painelRef.current?.querySelector('input, select, textarea')
+      ;(alvo || painelRef.current)?.focus({ preventScroll: true })
     }, 50)
     return () => {
       clearTimeout(t)

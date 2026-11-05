@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { AlertTriangle, ArrowRight, Info, Lock, Mail, Sparkles } from 'lucide-react'
@@ -30,6 +30,17 @@ export default function Login() {
   const [erroGeral, setErroGeral] = useState('')
   const [enviando, setEnviando] = useState(false)
   const [tremer, setTremer] = useState(0)
+  const [demorando, setDemorando] = useState(false)
+
+  // servidor gratuito dormindo: depois de 4 s, explica a espera em vez de deixar o botão girando em silêncio
+  useEffect(() => {
+    if (!enviando) {
+      setDemorando(false)
+      return undefined
+    }
+    const t = setTimeout(() => setDemorando(true), 4000)
+    return () => clearTimeout(t)
+  }, [enviando])
 
   const enviar = async (e) => {
     e.preventDefault()
@@ -117,6 +128,11 @@ export default function Login() {
             <Button type="submit" variant="primary" size="lg" block loading={enviando} iconRight={ArrowRight}>
               Entrar
             </Button>
+            {demorando && (
+              <p className="field__dica" role="status" style={{ marginTop: 'calc(var(--s-2) * -1)' }}>
+                Acordando o servidor… no plano gratuito, o primeiro acesso pode levar até 1 minuto.
+              </p>
+            )}
 
             <details className="demo">
               <summary>

@@ -1,0 +1,227 @@
+/* ---------- 04 Tudo à vista (passaporte de exemplo guiado pelo scroll) ---------- */
+.vista__grade {
+  display: grid;
+  gap: var(--s-7);
+}
+
+@media (min-width: 1000px) {
+  .vista__grade {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: start;
+  }
+
+  .vista__palco {
+    position: sticky;
+    top: 88px;
+  }
+}
+
+.vista__passaporte {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(140deg, var(--surface-1) 30%, #fbefe2);
+  box-shadow: 0 40px 120px rgba(166, 65, 50, 0.06);
+}
+
+@media (min-width: 700px) {
+  .vista__passaporte {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+}
+
+.vista__foto.foto-carro--capa {
+  border-radius: 0;
+  aspect-ratio: 16 / 10;
+}
+
+@media (min-width: 700px) {
+  .vista__foto.foto-carro--capa {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 100%;
+  }
+}
+
+.vista__corpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  padding: var(--s-5);
+}
+
+.vista__topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+
+.vista__corpo .passaporte__carro {
+  margin-top: 0;
+}
+
+.vista__corpo .passaporte__meta {
+  margin-top: calc(var(--s-2) * -1);
+}
+
+.vista__total {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--s-3) 0;
+  border-block: 1px dashed var(--line-strong);
+}
+
+.vista__total .mono {
+  font-size: var(--fs-small);
+}
+
+.vista__numero {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 3.6vw, 2.8rem);
+  line-height: 1.05;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.vista__jornada .jornada__colunas {
+  grid-template-columns: 1fr;
+  gap: var(--s-3);
+}
+
+.vista__controles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-4);
+}
+
+.vista__momentos {
+  display: grid;
+  gap: var(--s-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 1000px) {
+  .vista__momentos {
+    gap: 0;
+    /* espaço para cada momento "segurar" o passaporte enquanto é lido */
+    padding-block: 8vh 30vh;
+  }
+
+  .vista__momento {
+    min-height: 62vh;
+  }
+}
+
+.vista__momento {
+  position: relative;
+  padding: var(--s-5) 0 var(--s-5) var(--s-6);
+  border-left: 1px solid var(--line-strong);
+  color: var(--text-mute);
+  transition: color var(--d-panel) var(--ease-ui);
+}
+
+.vista__momento .text-soft {
+  color: var(--text-mute);
+}
+
+.vista__momento::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: var(--s-5);
+  width: 2px;
+  height: 0;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+  transition: height 600ms var(--ease-out);
+}
+
+.vista__momento--ativo,
+.vista__momento--ativo .text-soft {
+  color: var(--text);
+}
+
+.vista__momento--ativo::before {
+  height: 64px;
+}
+
+.vista__indice {
+  color: var(--accent);
+  font-size: var(--fs-small);
+}
+
+.vista__titulo-momento {
+  margin: var(--s-2) 0 var(--s-3);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  line-height: 1.1;
+}
+
+
+
+/* ---------- 05 Frota: foto real em cada card ---------- */
+.carro__foto.foto-carro--card {
+  margin: calc(var(--s-5) * -1) calc(var(--s-5) * -1) var(--s-4);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  transform: translateZ(10px);
+}
+
+.carro .carro__marca {
+  margin-top: var(--s-4);
+}
+
+.carro:hover .foto-carro img {
+  transform: scale(1.05);
+}
+
+.carro:hover .foto-carro::after {
+  width: 44px;
+  height: 44px;
+}
+
+.carro .carro__base {
+  margin-top: auto;
+}
+
+/* ---------- Rodapé: créditos das fotos ---------- */
+.rodape__fotos {
+  margin-top: var(--s-3);
+}
+
+.rodape__fotos summary {
+  cursor: pointer;
+  min-height: 24px;
+}
+
+.rodape__fotos ul {
+  display: grid;
+  gap: 4px;
+  margin: var(--s-2) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-small);
+  color: var(--text-soft);
+}
+
+.rodape__fotos a {
+  color: var(--text);
+  text-transform: capitalize;
+}
+
+/* troca de etapa instantânea nos chips (sem estado intermediário de baixo contraste) */
+.vista__controles .chip {
+  transition: none;
+}
+
+.rodape__fotos li {
+  line-height: 1.9;
+}

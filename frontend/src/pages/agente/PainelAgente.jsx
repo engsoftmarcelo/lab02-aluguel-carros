@@ -14,11 +14,11 @@ import { DashboardAPI, PedidosAPI } from '../../services/api'
 import { formatarMoeda, PAPEL_LABEL } from '../../utils/formato'
 
 const COR = {
-  EM_ANALISE: '#E9C46A',
-  APROVADO: '#5EE6A0',
-  CONTRATADO: '#FF8F1F',
-  REPROVADO: '#FF6B6B',
-  CANCELADO: '#8C8984',
+  EM_ANALISE: '#E8C46A',
+  APROVADO: '#5E9C77',
+  CONTRATADO: '#A64132',
+  REPROVADO: '#D9776B',
+  CANCELADO: '#B9AFA6',
 }
 
 function Kpi({ rotulo, valor, mono, traco, i }) {
@@ -92,10 +92,10 @@ export default function PainelAgente() {
             <div className="grafico" role="img" aria-label={grafico.map((g) => `${g.nome}: ${g.total}`).join(', ')}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={grafico} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
-                  <CartesianGrid stroke="#26262A" vertical={false} />
-                  <XAxis dataKey="nome" tick={{ fill: '#A8A29A', fontSize: 11, fontFamily: 'Geist Mono Variable' }} axisLine={{ stroke: '#3A3A3F' }} tickLine={false} />
-                  <YAxis allowDecimals={false} tick={{ fill: '#A8A29A', fontSize: 11 }} axisLine={false} tickLine={false} />
-                  <Tooltip cursor={{ fill: 'rgba(255,143,31,0.06)' }} content={<DicaGrafico />} />
+                  <CartesianGrid stroke="#ECDCC8" vertical={false} />
+                  <XAxis dataKey="nome" tick={{ fill: '#6B5A50', fontSize: 11, fontFamily: 'Source Sans 3 Variable' }} axisLine={{ stroke: '#D9C4AB' }} tickLine={false} />
+                  <YAxis allowDecimals={false} tick={{ fill: '#6B5A50', fontSize: 11 }} axisLine={false} tickLine={false} />
+                  <Tooltip cursor={{ fill: 'rgba(166,65,50,0.06)' }} content={<DicaGrafico />} />
                   <Bar dataKey="total" radius={[4, 4, 0, 0]} maxBarSize={56} animationDuration={900}>
                     {grafico.map((g) => (
                       <Cell key={g.status} fill={COR[g.status]} style={{ cursor: 'pointer' }} onClick={() => navigate(`/agente/pedidos?status=${g.status}`)} />

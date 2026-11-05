@@ -123,7 +123,7 @@
   height: 64px;
   padding: 0 var(--margin);
   border-bottom: 1px solid var(--line);
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(53, 42, 37, 0.4);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -148,11 +148,9 @@
 
 .pagina__titulo {
   font-family: var(--font-display);
-  font-stretch: 125%;
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(1.75rem, 3.4vw, 2.75rem);
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   line-height: 0.95;
 }
 
@@ -170,7 +168,7 @@
   justify-content: space-around;
   padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
   border-top: 1px solid var(--line);
-  background: rgba(11, 11, 12, 0.95);
+  background: rgba(255, 250, 243, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }

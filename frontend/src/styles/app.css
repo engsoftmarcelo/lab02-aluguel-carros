@@ -64,8 +64,7 @@
 
 .kpi__valor {
   font-family: var(--font-display);
-  font-stretch: 125%;
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(2rem, 3.4vw, 2.75rem);
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -293,7 +292,7 @@
 .linha-tempo__etapa--atual .linha-tempo__no {
   border-color: var(--status-em-analise);
   color: var(--status-em-analise);
-  box-shadow: 0 0 0 4px rgba(233, 196, 106, 0.15);
+  box-shadow: 0 0 0 4px rgba(122, 90, 10, 0.15);
   animation: pulso-no 2s var(--ease-in-out) infinite;
 }
 
@@ -327,8 +326,8 @@
 }
 
 @keyframes pulso-no {
-  0%, 100% { box-shadow: 0 0 0 4px rgba(233, 196, 106, 0.15); }
-  50% { box-shadow: 0 0 0 8px rgba(233, 196, 106, 0.04); }
+  0%, 100% { box-shadow: 0 0 0 4px rgba(122, 90, 10, 0.15); }
+  50% { box-shadow: 0 0 0 8px rgba(122, 90, 10, 0.04); }
 }
 
 /* Informações em grade (detalhes) */
@@ -445,15 +444,13 @@
 .carro-op[aria-pressed='true'] {
   border-color: var(--accent);
   background: var(--accent-soft);
-  box-shadow: 0 0 0 1px var(--accent) inset, 0 12px 40px rgba(255, 143, 31, 0.12);
+  box-shadow: 0 0 0 1px var(--accent) inset, 0 12px 40px rgba(166, 65, 50, 0.12);
 }
 
 .carro-op__modelo {
   font-family: var(--font-display);
-  font-stretch: 125%;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 1.5rem;
-  text-transform: uppercase;
   line-height: 1;
 }
 
@@ -544,15 +541,14 @@
   gap: var(--s-3);
   flex-wrap: wrap;
   padding: var(--s-5);
-  border: 1px solid rgba(255, 143, 31, 0.4);
+  border: 1px solid rgba(166, 65, 50, 0.4);
   border-radius: var(--radius-md);
   background: var(--accent-soft);
 }
 
 .resumo-valor__numero {
   font-family: var(--font-display);
-  font-stretch: 125%;
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1;
 }
@@ -624,17 +620,15 @@
 
 .contrato__carro {
   font-family: var(--font-display);
-  font-stretch: 125%;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 1.5rem;
-  text-transform: uppercase;
   line-height: 1;
   margin-top: var(--s-2);
 }
 
 .credito {
   padding: var(--s-4);
-  border: 1px dashed rgba(255, 143, 31, 0.5);
+  border: 1px dashed rgba(166, 65, 50, 0.5);
   border-radius: var(--radius-md);
   background: var(--accent-soft);
 }

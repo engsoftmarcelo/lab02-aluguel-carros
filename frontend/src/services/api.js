@@ -4,7 +4,7 @@ import { lerSessao, limparSessao } from './sessao'
 /** Cliente HTTP da API Spring Boot. O token JWT vai em todas as requisições. */
 const api = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api`,
-  timeout: 20000,
+  timeout: 75000, // o servidor gratuito (Render) pode levar ~1 min para acordar
   headers: { 'Content-Type': 'application/json' },
 })
 
@@ -36,7 +36,7 @@ api.interceptors.response.use(
 /** Extrai { mensagem, campos } do JSON de erro padrão do backend. */
 export function lerErro(erro, padrao = 'Não foi possível concluir. Tente novamente.') {
   if (!erro?.response) {
-    return { mensagem: 'Sem conexão com o servidor. Verifique se a API está rodando.', campos: {} }
+    return { mensagem: 'Não conseguimos falar com o servidor agora. Se ele estava parado, pode levar até 1 minuto para acordar: tente de novo em instantes.', campos: {} }
   }
   const dados = erro.response.data || {}
   return { mensagem: dados.mensagem || padrao, campos: dados.campos || {}, status: erro.response.status }

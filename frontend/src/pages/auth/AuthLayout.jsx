@@ -1,19 +1,13 @@
-import { useReducedMotion } from 'framer-motion'
 import Logo from '../../components/ui/Logo'
 
-/** Moldura das telas de login/cadastro: vídeo de rastros de luz + manifesto à esquerda, formulário à direita. */
+/** Moldura das telas de login/cadastro: foto real enquadrada + assinatura à esquerda, formulário à direita. */
 export default function AuthLayout({ children }) {
-  const reduzir = useReducedMotion()
-
   return (
     <div className="auth">
       <div className="auth__visual" aria-hidden="true">
-        {reduzir ? (
-          <img className="auth__video" src="/media/loop-poster.jpg" alt="" />
-        ) : (
-          <video className="auth__video" src="/media/loop.mp4" poster="/media/loop-poster.jpg" autoPlay muted loop playsInline />
-        )}
-        <div className="grain" />
+        <figure className="auth__moldura">
+          <img src="/frota/volkswagen-nivus-1400.webp" alt="" />
+        </figure>
       </div>
 
       <div className="auth__texto">
@@ -23,24 +17,21 @@ export default function AuthLayout({ children }) {
             Aluguel de carros · análise por empresas e bancos
           </p>
           <h2 className="display auth__titulo">
-            <span>O carro certo,</span>
-            <span>
-              no traço <span className="accent" style={{ display: 'inline' }}>certo.</span>
-            </span>
+            Tem vida acontecendo <span className="accent">logo ali.</span>
           </h2>
         </div>
         <div className="auth__passos">
           <div className="auth__passo">
             <p className="label">01 — Pedido</p>
-            <p>Escolha o carro e as datas.</p>
+            <p>Escolha o carro e veja o total.</p>
           </div>
           <div className="auth__passo">
             <p className="label">02 — Análise</p>
-            <p>Empresas e bancos avaliam.</p>
+            <p>Empresa ou banco dá o parecer.</p>
           </div>
           <div className="auth__passo">
             <p className="label">03 — Contrato</p>
-            <p>Assinado, com ou sem crédito.</p>
+            <p>Com ou sem crédito de banco.</p>
           </div>
         </div>
       </div>

@@ -1,10 +1,10 @@
 import { Ban, Check, Clock, FileSignature, X } from 'lucide-react'
 
 /**
- * O "traço" do pedido: Pedido → Análise → Aprovado → Contrato.
+ * Andamento do pedido: Pedido → Análise → Aprovado → Contrato.
  * Reprovado: a linha se interrompe em vermelho na análise. Cancelado: fica cinza e tracejada.
  */
-export default function LinhaDoTempo({ status }) {
+export default function LinhaDoTempo({ status, animar = false }) {
   const etapas = [
     { rotulo: 'Pedido' },
     { rotulo: 'Análise' },
@@ -32,7 +32,7 @@ export default function LinhaDoTempo({ status }) {
   }
 
   return (
-    <ol className="linha-tempo" aria-label={`Andamento do pedido: ${etapas[estados.indexOf('atual')]?.rotulo || status}`}>
+    <ol className={`linha-tempo${animar ? ' linha-tempo--animar' : ''}`} aria-label={`Andamento do pedido: ${etapas[estados.indexOf('atual')]?.rotulo || status}`}>
       {etapas.map((e, i) => {
         const estado = estados[i]
         const quebra = (status === 'REPROVADO' || status === 'CANCELADO') && i >= 1
@@ -46,7 +46,7 @@ export default function LinhaDoTempo({ status }) {
           .filter(Boolean)
           .join(' ')
         return (
-          <li key={i} className={classes} aria-current={estado === 'atual' ? 'step' : undefined}>
+          <li key={i} className={classes} style={{ '--i': i }} aria-current={estado === 'atual' ? 'step' : undefined}>
             <span className="linha-tempo__no">{icone(estado, i)}</span>
             <span className="linha-tempo__rotulo">{e.rotulo}</span>
           </li>
