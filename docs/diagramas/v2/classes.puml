@@ -1,0 +1,156 @@
+@startuml classes
+!pragma layout smetana
+title Sistema de Aluguel de Carros (TRAÇO) — Diagrama de Classes de Domínio (v2, alinhado ao código)
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam classAttributeIconSize 0
+skinparam class {
+  BackgroundColor #F5F8FF
+  BorderColor #3B5BDB
+  ArrowColor #444444
+}
+skinparam enum {
+  BackgroundColor #FFF8E6
+  BorderColor #E8A317
+}
+hide empty methods
+set separator none
+
+package "br.pucminas.aluguelcarros.model" {
+
+abstract class Usuario <<Entity>> <<JOINED: usuarios>> {
+  - id : Long
+  - login : String {único, e-mail}
+  - senha : String {hash BCrypt}
+  - nome : String
+  - endereco : String
+  - papel : Papel
+}
+
+class Cliente <<Entity: clientes>> {
+  + {static} MAX_RENDIMENTOS : int = 3
+  - rg : String
+  - cpf : String {único, 11 dígitos}
+  - profissao : String
+  - rendimentos : List<Rendimento> {máx. 3}
+  + adicionarRendimento(r : Rendimento) : void
+  + removerRendimento(r : Rendimento) : void
+  + limparRendimentos() : void
+}
+
+class Rendimento <<Entity: rendimentos>> {
+  - id : Long
+  - entidadeEmpregadora : String
+  - valor : BigDecimal
+  - cliente : Cliente
+}
+
+abstract class Agente <<Entity: agentes>> {
+  - cnpj : String {único, 14 dígitos}
+}
+
+class Empresa <<Entity: empresas>>
+class Banco <<Entity: bancos>>
+
+class Automovel <<Entity: automoveis>> {
+  - id : Long
+  - matricula : String {única}
+  - ano : Integer
+  - marca : String
+  - modelo : String
+  - placa : String {única, ABC1D23}
+  - valorDiaria : BigDecimal
+  - tipoProprietario : TipoProprietario
+  - proprietario : Usuario
+}
+
+class PedidoAluguel <<Entity: pedidos_aluguel>> {
+  - id : Long
+  - cliente : Cliente
+  - automovel : Automovel
+  - dataInicio : LocalDate
+  - dataFim : LocalDate
+  - valorEstimado : BigDecimal
+  - status : StatusPedido
+  - parecer : String
+  - agenteAvaliador : Agente
+  - criadoEm : LocalDateTime
+  + quantidadeDiarias() : long
+  + recalcularValorEstimado() : void
+}
+
+class Contrato <<Entity: contratos>> <<JOINED>> {
+  - id : Long
+  - pedido : PedidoAluguel {1:1}
+  - tipoPropriedade : TipoProprietario
+  - dataAssinatura : LocalDate
+}
+
+class ContratoCredito <<Entity: contratos_credito>> {
+  - banco : Banco
+  - valorFinanciado : BigDecimal
+  - taxaJuros : BigDecimal {% ao mês}
+  - parcelas : Integer
+  + valorParcela() : BigDecimal
+  + {static} calcularParcela(valor, taxa, parcelas) : BigDecimal
+}
+
+enum Papel {
+  CLIENTE
+  EMPRESA
+  BANCO
+  + isAgente() : boolean
+}
+
+enum StatusPedido {
+  EM_ANALISE
+  APROVADO
+  REPROVADO
+  CANCELADO
+  CONTRATADO
+}
+
+enum TipoProprietario {
+  CLIENTE
+  EMPRESA
+  BANCO
+}
+}
+
+' ---------- Herança ----------
+Usuario <|-- Cliente
+Usuario <|-- Agente
+Agente <|-- Empresa
+Agente <|-- Banco
+Contrato <|-- ContratoCredito
+
+' ---------- Associações (multiplicidades conforme o mapeamento JPA) ----------
+Cliente "1" *-- "0..3" Rendimento : possui >
+Cliente "1" <-- "0..*" PedidoAluguel : solicitado por <
+PedidoAluguel "0..*" --> "1" Automovel : refere-se a >
+PedidoAluguel "0..*" --> "0..1" Agente : avaliado por >
+Automovel "0..*" --> "0..1" Usuario : proprietário >
+Contrato "0..1" --> "1" PedidoAluguel : origina-se de >
+ContratoCredito "0..*" --> "1" Banco : concedido por >
+
+Usuario ..> Papel
+PedidoAluguel ..> StatusPedido
+Automovel ..> TipoProprietario
+Contrato ..> TipoProprietario
+
+note right of PedidoAluguel
+  Transições (regras no PedidoService/ContratoService):
+  EM_ANALISE → APROVADO → CONTRATADO
+  EM_ANALISE → REPROVADO
+  EM_ANALISE → CANCELADO
+  valorEstimado = quantidadeDiarias() × automovel.valorDiaria
+end note
+
+note bottom of ContratoCredito
+  Somente um Banco concede crédito.
+  Parcela pela Tabela Price:
+  PV · i / (1 − (1 + i)^−n)
+end note
+@enduml

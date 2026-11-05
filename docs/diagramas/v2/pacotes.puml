@@ -1,0 +1,138 @@
+@startuml pacotes
+!pragma layout smetana
+title Sistema de Aluguel de Carros (TRAÇO) — Diagrama de Pacotes / Visão Lógica (v2, alinhado ao código)
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam packageStyle folder
+skinparam package {
+  BorderColor #444444
+}
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #9AA4B2
+}
+skinparam ArrowColor #555555
+hide members
+hide circle
+set separator none
+top to bottom direction
+
+package "Construção Dinâmica das Páginas Web — frontend/src (React 19 + Vite)" as FRONT #EEF6FF {
+  package "pages" as pages {
+    class "Landing + landing/*" as PLanding
+    class "auth/Login, Cadastro" as PAuth
+    class "cliente/PainelCliente, NovoPedido,\nMeusPedidos, Perfil" as PCliente
+    class "agente/PainelAgente, PedidosAgente,\nGerarContrato, Clientes, Frota" as PAgente
+    class "Contratos" as PContratos
+  }
+  package "components" as components {
+    class "ui/Button, Input, Select, Card,\nStatusBadge, Modal, Confirmar,\nSkeleton, Estados, Logo" as CUi
+    class "layout/AppShell, Sidebar, Navbar" as CLayout
+    class "pedido/LinhaDoTempo, Pedido, CarroOpcao" as CPedido
+    class "forms/RendimentosEditor" as CForms
+  }
+  package "routes" as routes {
+    class RotaProtegida
+  }
+  package "context" as context {
+    class AuthContext
+    class ToastContext
+  }
+  package "hooks" as hooks {
+    class useCarregar
+  }
+  package "services" as services {
+    class "api (axios + JWT)" as api
+    class sessao
+  }
+  package "utils" as utils {
+    class formato
+  }
+}
+
+package "Gestão de Pedidos e Contratos — backend (Spring Boot 4.0.9, MVC) br.pucminas.aluguelcarros" as BACK #F3FFF0 {
+  package "controller" as controller {
+    class AuthController
+    class ClienteController
+    class AutomovelController
+    class PedidoController
+    class ContratoController
+    class DashboardController
+  }
+  package "dto" as dto {
+    class "*Request / *Response (17 records)" as DTOs
+  }
+  package "service" as service {
+    class AuthService
+    class ClienteService
+    class AutomovelService
+    class PedidoService
+    class ContratoService
+    class DashboardService
+    class Documentos
+  }
+  package "repository" as repository {
+    class "UsuarioRepository, ClienteRepository,\nAgenteRepository, BancoRepository,\nAutomovelRepository, PedidoAluguelRepository,\nContratoRepository" as Repos
+  }
+  package "model" as model {
+    class "Usuario, Cliente, Rendimento, Agente,\nEmpresa, Banco, Automovel, PedidoAluguel,\nContrato, ContratoCredito,\nPapel, StatusPedido, TipoProprietario" as Entidades
+  }
+  package "security" as security {
+    class JwtService
+    class JwtAuthFilter
+    class UsuarioAutenticado
+    class RespostasSeguranca
+    class UsuarioDetailsService
+  }
+  package "config" as config {
+    class SecurityConfig
+    class CorsConfig
+    class ClockConfig
+    class DataSeeder
+  }
+  package "exception" as exception {
+    class GlobalExceptionHandler
+    class "RegraNegocio / Conflito / AcessoNegado /\nRecursoNaoEncontrado Exception, ErroResponse" as Excecoes
+  }
+}
+
+class "Supabase · PostgreSQL 17" as DB <<database>> #FFF8E6
+
+' ----- Frontend -----
+pages ..> components
+pages ..> context
+pages ..> hooks
+pages ..> services
+pages ..> utils
+routes ..> context
+context ..> services
+hooks ..> services
+components ..> utils
+
+' ----- Fronteira entre os subsistemas -----
+services ..> controller : HTTP/JSON (REST)\nAuthorization: Bearer <JWT>
+
+' ----- Backend -----
+controller ..> service
+controller ..> dto
+service ..> repository
+service ..> model
+service ..> dto
+service ..> exception
+service ..> security
+repository ..> model
+dto ..> model
+security ..> repository
+config ..> security
+config ..> repository
+exception ..> dto
+repository ..> DB : Spring Data JPA / Hibernate 7\n(JDBC, Session pooler)
+
+legend bottom
+  <b>MVC</b>: <b>M</b> = model (entidades JPA) · <b>C</b> = controller (REST) · <b>V</b> = páginas React (pages + components) que consomem a API
+  Fluxo: página → services/api → controller → service (regras e transições de status) → repository → Supabase
+  security: JwtAuthFilter lê o token e monta UsuarioAutenticado; autorização por papel com @PreAuthorize nos controllers
+endlegend
+@enduml

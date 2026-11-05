@@ -1,0 +1,90 @@
+@startuml casos-de-uso
+!pragma layout smetana
+title Sistema de Aluguel de Carros (TRAÇO) — Diagrama de Casos de Uso (v2, alinhado ao sistema)
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor #F5F8FF
+  BorderColor #3B5BDB
+  ArrowColor #555555
+}
+skinparam rectangle {
+  BorderColor #444444
+  FontStyle bold
+}
+left to right direction
+
+actor "Visitante\n(não autenticado)" as Visitante
+actor "Usuário\nautenticado" as Usuario
+actor "Cliente" as Cliente
+actor "Agente" as Agente
+actor "Empresa" as Empresa
+actor "Banco" as Banco
+
+Cliente -up-|> Usuario
+Agente -up-|> Usuario
+Empresa -up-|> Agente
+Banco -up-|> Agente
+
+rectangle "Sistema de Aluguel de Carros" {
+  usecase "UC01 Cadastrar-se\n(cliente ou agente)" as UC01
+  usecase "UC02 Autenticar-se\n(login JWT / logout)" as UC02
+  usecase "Gerenciar rendimentos\n(máx. 3)" as UCR
+
+  usecase "UC03 Manter dados pessoais\n(consultar, editar, excluir conta)" as UC03
+  usecase "UC06 Consultar automóveis" as UC06
+  usecase "UC07 Criar pedido\n(valor estimado)" as UC07
+  usecase "UC08 Consultar pedidos\ne status" as UC08
+  usecase "UC09 Modificar pedido" as UC09
+  usecase "UC10 Cancelar pedido" as UC10
+  usecase "UC14 Consultar contratos" as UC14
+  usecase "UC15 Consultar painel\n(resumo por status)" as UC15
+
+  usecase "UC04 Manter clientes" as UC04
+  usecase "UC05 Manter automóveis" as UC05
+  usecase "UC11 Avaliar pedido\n(aprovar / reprovar + parecer)" as UC11
+  usecase "UC12 Gerar contrato\n(tipo de propriedade)" as UC12
+  usecase "UC13 Conceder crédito\n(Tabela Price)" as UC13
+  usecase "Verificar disponibilidade\ndo automóvel no período" as UCD
+}
+
+Visitante --> UC01
+Visitante --> UC02
+
+Usuario --> UC06
+Usuario --> UC14
+Usuario --> UC15
+
+Cliente --> UC03
+Cliente --> UC07
+Cliente --> UC08
+Cliente --> UC09
+Cliente --> UC10
+
+Agente --> UC04
+Agente --> UC05
+Agente --> UC08
+Agente --> UC09
+Agente --> UC11
+Agente --> UC12
+
+Banco --> UC13
+
+UC03 ..> UCR : <<include>>
+UC04 ..> UCR : <<include>>
+UCR ..> UC01 : <<extend>>
+UC07 ..> UC06 : <<include>>
+UC07 ..> UCD : <<include>>
+UC09 ..> UCD : <<include>>
+UC13 ..> UC12 : <<extend>>
+
+legend bottom right
+  <b>Regras de status</b>
+  UC09 Cliente: só EM_ANALISE · Agente: EM_ANALISE ou APROVADO
+  UC10 só EM_ANALISE (cliente dono) · UC11 só EM_ANALISE · UC12 só APROVADO → CONTRATADO
+  UC13 só usuários Banco · UC15 cliente vê só os próprios números; agente vê o geral
+endlegend
+@enduml
