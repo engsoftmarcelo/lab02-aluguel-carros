@@ -1,0 +1,194 @@
+import { useEffect, useMemo, useState } from 'react'
+import { motion } from 'framer-motion'
+import { ArrowRight, CalendarDays, Car, MessageSquareQuote } from 'lucide-react'
+import StatusBadge, { STATUS } from '../ui/StatusBadge'
+import Modal from '../ui/Modal'
+import Button from '../ui/Button'
+import Input from '../ui/Input'
+import Select from '../ui/Select'
+import LinhaDoTempo from './LinhaDoTempo'
+import { AutomoveisAPI, PedidosAPI, lerErro } from '../../services/api'
+import { diarias, exibirPlaca, formatarData, formatarMoeda, hojeISO } from '../../utils/formato'
+import { useToast } from '../../context/ToastContext'
+
+/** Linha clicável de um pedido nas listas. */
+export function PedidoLinha({ pedido, onAbrir, mostrarCliente, indice = 0 }) {
+  const p = pedido
+  return (
+    <motion.li
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: Math.min(indice, 8) * 0.04, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <button type="button" className="linha-item" onClick={() => onAbrir(p)}>
+        <div>
+          <p className="linha-item__titulo">
+            {p.automovel.marca} {p.automovel.modelo} <span className="placa" style={{ marginLeft: 6 }}>{exibirPlaca(p.automovel.placa)}</span>
+          </p>
+          <p className="linha-item__meta">
+            <span className="mono">#{String(p.id).padStart(4, '0')}</span>
+            {mostrarCliente && <span>{p.clienteNome}</span>}
+            <span>
+              <span className="nowrap">{formatarData(p.dataInicio)}</span> → <span className="nowrap">{formatarData(p.dataFim)}</span>
+            </span>
+            <span className="nowrap">
+              {p.diarias} diária{p.diarias > 1 ? 's' : ''}
+            </span>
+          </p>
+        </div>
+        <div className="linha-item__direita">
+          <StatusBadge status={p.status} />
+          <span className="linha-item__valor">{formatarMoeda(p.valorEstimado)}</span>
+          <ArrowRight size={18} className="linha-item__seta" aria-hidden="true" />
+        </div>
+      </button>
+    </motion.li>
+  )
+}
+
+/** Informações do pedido (usado no detalhe do cliente e do agente). */
+export function PedidoInfo({ pedido }) {
+  const p = pedido
+  return (
+    <>
+      <div className="bloco">
+        <LinhaDoTempo status={p.status} />
+      </div>
+      <div className="bloco">
+        <p className="bloco__titulo">
+          <Car size={14} aria-hidden="true" /> Automóvel e período
+        </p>
+        <dl className="info">
+          <div>
+            <dt>Carro</dt>
+            <dd>
+              {p.automovel.marca} {p.automovel.modelo} ({p.automovel.ano})
+            </dd>
+          </div>
+          <div>
+            <dt>Placa</dt>
+            <dd className="mono">{exibirPlaca(p.automovel.placa)}</dd>
+          </div>
+          <div>
+            <dt>Retirada</dt>
+            <dd>{formatarData(p.dataInicio)}</dd>
+          </div>
+          <div>
+            <dt>Devolução</dt>
+            <dd>{formatarData(p.dataFim)}</dd>
+          </div>
+          <div>
+            <dt>Diárias</dt>
+            <dd className="mono">
+              {p.diarias} × {formatarMoeda(p.automovel.valorDiaria)}
+            </dd>
+          </div>
+          <div>
+            <dt>Valor estimado</dt>
+            <dd className="mono accent" style={{ fontWeight: 600 }}>
+              {formatarMoeda(p.valorEstimado)}
+            </dd>
+          </div>
+        </dl>
+      </div>
+      {(p.parecer || p.agenteAvaliadorNome) && (
+        <div className="bloco">
+          <p className="bloco__titulo">
+            <MessageSquareQuote size={14} aria-hidden="true" /> Parecer do agente
+          </p>
+          {p.parecer && <p className="parecer">“{p.parecer}”</p>}
+          {p.agenteAvaliadorNome && (
+            <p className="label" style={{ marginTop: 'var(--s-3)' }}>
+              Avaliado por {p.agenteAvaliadorNome}
+            </p>
+          )}
+        </div>
+      )}
+    </>
+  )
+}
+
+/** Título do modal de detalhe. */
+export function tituloPedido(p) {
+  return `Pedido #${String(p.id).padStart(4, '0')}`
+}
+
+export function subtituloPedido(p) {
+  return `${STATUS[p.status]?.label || p.status} · criado em ${formatarData(p.criadoEm)}`
+}
+
+/** Modal para modificar automóvel e período (cliente em análise; agente em análise ou aprovado). */
+export function ModificarPedido({ pedido, open, onFechar, onSalvo }) {
+  const toast = useToast()
+  const [carros, setCarros] = useState([])
+  const [form, setForm] = useState({ automovelId: '', dataInicio: '', dataFim: '' })
+  const [erro, setErro] = useState('')
+  const [salvando, setSalvando] = useState(false)
+
+  useEffect(() => {
+    if (!open || !pedido) return
+    setForm({ automovelId: String(pedido.automovel.id), dataInicio: pedido.dataInicio, dataFim: pedido.dataFim })
+    setErro('')
+    AutomoveisAPI.listar().then(setCarros).catch(() => setCarros([pedido.automovel]))
+  }, [open, pedido])
+
+  const carro = useMemo(() => carros.find((c) => String(c.id) === form.automovelId), [carros, form.automovelId])
+  const n = form.dataInicio && form.dataFim && form.dataFim > form.dataInicio ? diarias(form.dataInicio, form.dataFim) : 0
+
+  const salvar = async () => {
+    setErro('')
+    setSalvando(true)
+    try {
+      const atualizado = await PedidosAPI.modificar(pedido.id, { automovelId: Number(form.automovelId), dataInicio: form.dataInicio, dataFim: form.dataFim })
+      toast.sucesso('Pedido modificado', `Novo valor estimado: ${formatarMoeda(atualizado.valorEstimado)}.`)
+      onSalvo(atualizado)
+    } catch (e) {
+      setErro(lerErro(e).mensagem)
+    } finally {
+      setSalvando(false)
+    }
+  }
+
+  return (
+    <Modal
+      open={open}
+      onClose={onFechar}
+      title="Modificar pedido"
+      subtitle="Troque o carro ou as datas. O valor é recalculado."
+      footer={
+        <>
+          <Button variant="ghost" onClick={onFechar}>
+            Voltar
+          </Button>
+          <Button variant="primary" loading={salvando} onClick={salvar} disabled={!n}>
+            Salvar alterações
+          </Button>
+        </>
+      }
+    >
+      <div className="form-grade">
+        {erro && (
+          <div className="alerta" role="alert">
+            {erro}
+          </div>
+        )}
+        <Select
+          label="Automóvel"
+          value={form.automovelId}
+          onChange={(e) => setForm((f) => ({ ...f, automovelId: e.target.value }))}
+          options={carros.map((c) => ({ value: String(c.id), label: `${c.marca} ${c.modelo} · ${exibirPlaca(c.placa)} · ${formatarMoeda(c.valorDiaria)}/dia` }))}
+        />
+        <div className="form-grade form-grade--2">
+          <Input label="Retirada" type="date" icon={CalendarDays} min={hojeISO()} value={form.dataInicio} onChange={(e) => setForm((f) => ({ ...f, dataInicio: e.target.value }))} />
+          <Input label="Devolução" type="date" icon={CalendarDays} min={form.dataInicio || hojeISO(1)} value={form.dataFim} onChange={(e) => setForm((f) => ({ ...f, dataFim: e.target.value }))} />
+        </div>
+        <div className="resumo-valor">
+          <span className="label">
+            {n || 0} diária{n === 1 ? '' : 's'} × {formatarMoeda(carro?.valorDiaria)}
+          </span>
+          <span className="resumo-valor__numero">{formatarMoeda((carro?.valorDiaria || 0) * n)}</span>
+        </div>
+      </div>
+    </Modal>
+  )
+}

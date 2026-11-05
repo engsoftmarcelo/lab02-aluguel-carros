@@ -1,0 +1,59 @@
+# ===== Segredos =====
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ===== Arquivos pessoais / ferramentas / mídia bruta =====
+PASSO_A_PASSO.md
+tools/
+.jdk-sock/
+frontend-midia/
+
+# ===== Java / Maven =====
+target/
+*.class
+*.jar
+*.war
+*.log
+hs_err_pid*
+replay_pid*
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# ===== Node / Vite =====
+node_modules/
+dist/
+dist-ssr/
+.vite/
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.local
+
+# ===== IDEs / editores =====
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.settings/
+.project
+.classpath
+.factorypath
+.sts4-cache/
+bin/
+out/
+*.swp
+*~
+
+# ===== Sistema operacional =====
+.DS_Store
+Thumbs.db
+desktop.ini
+

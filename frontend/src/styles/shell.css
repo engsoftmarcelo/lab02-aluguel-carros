@@ -1,0 +1,232 @@
+/* ============ Shell do app (sidebar + conteúdo) ============ */
+.shell {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 40;
+  display: none;
+  flex-direction: column;
+  width: var(--sidebar-w);
+  padding: var(--s-5) var(--s-4);
+  border-right: 1px solid var(--line);
+  background: var(--surface-1);
+}
+
+.sidebar__logo {
+  padding: 0 var(--s-2) var(--s-6);
+}
+
+.sidebar__secao {
+  padding: 0 var(--s-3) var(--s-2);
+}
+
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navlink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 42px;
+  padding: 0 var(--s-3);
+  border-radius: var(--radius-md);
+  color: var(--text-soft);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  transition: color var(--d-ui) var(--ease-ui), background var(--d-ui) var(--ease-ui);
+}
+
+.navlink:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.navlink.active {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.navlink__traco {
+  position: absolute;
+  left: -16px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.navlink.active svg {
+  color: var(--accent);
+}
+
+.sidebar__usuario {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-3) 0;
+  border-top: 1px solid var(--line);
+}
+
+.usuario-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-width: 0;
+}
+
+.usuario-chip__avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.usuario-chip__nome {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.conteudo {
+  min-height: 100vh;
+  padding-bottom: 88px; /* espaço da barra inferior no mobile */
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  height: 64px;
+  padding: 0 var(--margin);
+  border-bottom: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.topbar__logo-mobile {
+  display: flex;
+}
+
+.pagina {
+  padding: var(--s-6) var(--margin) var(--s-8);
+  max-width: 1280px;
+}
+
+.pagina__cabecalho {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-bottom: var(--s-6);
+}
+
+.pagina__titulo {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 800;
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+.pagina__sub {
+  margin-top: var(--s-2);
+  color: var(--text-soft);
+}
+
+/* Barra de navegação inferior (mobile) */
+.barra-inferior {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 40;
+  display: flex;
+  justify-content: space-around;
+  padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  background: rgba(11, 11, 12, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.barra-inferior .navlink {
+  flex-direction: column;
+  gap: 2px;
+  min-height: 52px;
+  padding: 4px 2px;
+  font-size: 0.625rem;
+  white-space: nowrap;
+  justify-content: center;
+  flex: 1;
+  text-align: center;
+}
+
+.barra-inferior .navlink__traco {
+  left: 25%;
+  right: 25%;
+  top: -7px;
+  bottom: auto;
+  width: auto;
+  height: 2px;
+}
+
+@media (max-width: 1023px) {
+  .topbar .usuario-chip > div {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    display: flex;
+  }
+
+  .conteudo {
+    margin-left: var(--sidebar-w);
+    padding-bottom: 0;
+  }
+
+  .topbar__logo-mobile,
+  .barra-inferior {
+    display: none;
+  }
+
+  /* no desktop a identidade já está no rodapé da sidebar: evita repetir na topbar */
+  .topbar .usuario-chip,
+  .topbar .btn--ghost {
+    display: none;
+  }
+
+  .topbar {
+    height: 40px;
+    border-bottom-color: transparent;
+    background: transparent;
+    backdrop-filter: none;
+  }
+}
