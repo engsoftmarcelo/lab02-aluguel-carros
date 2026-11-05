@@ -1,0 +1,62 @@
+@startuml pacotes
+!pragma layout smetana
+title Sistema de Aluguel de Carros — Diagrama de Pacotes / Visão Lógica (v1)
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam packageStyle folder
+skinparam package {
+  BorderColor #444444
+}
+skinparam ArrowColor #555555
+top to bottom direction
+
+package "Construção Dinâmica das Páginas Web (frontend — React + Vite)" as FRONT #EEF6FF {
+  package pages
+  package components
+  package context
+  package "services/api" as api
+}
+
+package "Gestão de Pedidos e Contratos (backend — Spring Boot MVC)" as BACK #F3FFF0 {
+  package controller
+  package dto
+  package service
+  package repository
+  package model
+  package security
+  package config
+  package exception
+}
+
+database "Supabase (PostgreSQL)" as DB
+
+' ----- Frontend -----
+pages ..> components
+pages ..> context
+pages ..> api
+context ..> api
+
+' ----- Fronteira entre subsistemas -----
+api ..> controller : HTTP/JSON (REST) + JWT
+
+' ----- Backend (MVC em camadas) -----
+controller ..> service
+controller ..> dto
+controller ..> exception
+service ..> repository
+service ..> model
+service ..> dto
+service ..> exception
+repository ..> model
+security ..> repository
+config ..> security
+repository ..> DB : JPA / JDBC
+
+legend bottom
+  <b>MVC</b>: M = model (entidades JPA) · C = controller (endpoints REST) · V = pages React que consomem a API
+  <b>context</b>: AuthContext (sessão/JWT no front) · <b>services/api</b>: cliente axios com interceptor JWT
+  <b>security</b>: filtro JWT, UserDetailsService · <b>config</b>: segurança, CORS, seed · <b>exception</b>: erros de negócio → JSON
+endlegend
+@enduml

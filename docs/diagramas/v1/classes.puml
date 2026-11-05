@@ -1,0 +1,142 @@
+@startuml classes
+!pragma layout smetana
+title Sistema de Aluguel de Carros — Diagrama de Classes de Domínio (v1)
+
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam class {
+  BackgroundColor #F5F8FF
+  BorderColor #3B5BDB
+  ArrowColor #444444
+}
+skinparam enum {
+  BackgroundColor #FFF8E6
+  BorderColor #E8A317
+}
+hide empty methods
+
+abstract class Usuario {
+  - id : Long
+  - login : String
+  - senha : String
+  - nome : String
+  - endereco : String
+  - papel : Papel
+}
+
+class Cliente {
+  - rg : String
+  - cpf : String
+  - profissao : String
+  + adicionarRendimento(r : Rendimento) : void
+  + removerRendimento(r : Rendimento) : void
+}
+
+class Rendimento {
+  - id : Long
+  - entidadeEmpregadora : String
+  - valor : BigDecimal
+}
+
+abstract class Agente {
+  - cnpj : String
+  + avaliarPedido(p : PedidoAluguel, aprovado : boolean, parecer : String) : void
+}
+
+class Empresa
+class Banco {
+  + concederCredito(c : Contrato, valor : BigDecimal, taxa : BigDecimal, parcelas : int) : ContratoCredito
+}
+
+class Automovel {
+  - id : Long
+  - matricula : String
+  - ano : int
+  - marca : String
+  - modelo : String
+  - placa : String
+  - tipoProprietario : TipoProprietario
+}
+
+class PedidoAluguel {
+  - id : Long
+  - dataInicio : LocalDate
+  - dataFim : LocalDate
+  - valorEstimado : BigDecimal
+  - status : StatusPedido
+  - parecer : String
+  - criadoEm : LocalDateTime
+  + modificar(automovel : Automovel, inicio : LocalDate, fim : LocalDate) : void
+  + cancelar() : void
+}
+
+class Contrato {
+  - id : Long
+  - tipoPropriedade : TipoProprietario
+  - dataAssinatura : LocalDate
+}
+
+class ContratoCredito {
+  - valorFinanciado : BigDecimal
+  - taxaJuros : BigDecimal
+  - parcelas : int
+  + valorParcela() : BigDecimal
+}
+
+enum Papel {
+  CLIENTE
+  EMPRESA
+  BANCO
+}
+
+enum StatusPedido {
+  EM_ANALISE
+  APROVADO
+  REPROVADO
+  CANCELADO
+  CONTRATADO
+}
+
+enum TipoProprietario {
+  CLIENTE
+  EMPRESA
+  BANCO
+}
+
+' ---------- Herança ----------
+Usuario <|-- Cliente
+Usuario <|-- Agente
+Agente <|-- Empresa
+Agente <|-- Banco
+Contrato <|-- ContratoCredito
+
+' ---------- Associações ----------
+Cliente "1" *-- "0..3" Rendimento : possui >
+Cliente "1" -- "0..*" PedidoAluguel : solicita >
+PedidoAluguel "0..*" --> "1" Automovel : refere-se a >
+PedidoAluguel "0..*" --> "0..1" Agente : avaliado por >
+Automovel "0..*" --> "0..1" Usuario : proprietário >
+PedidoAluguel "1" -- "0..1" Contrato : origina >
+ContratoCredito "0..*" --> "1" Banco : concedido por >
+
+' ---------- Enums ----------
+Usuario ..> Papel
+PedidoAluguel ..> StatusPedido
+Automovel ..> TipoProprietario
+Contrato ..> TipoProprietario
+
+note right of Rendimento
+  Máximo de 3 rendimentos
+  por cliente.
+end note
+
+note right of PedidoAluguel
+  Ciclo de vida:
+  EM_ANALISE → APROVADO → CONTRATADO
+  EM_ANALISE → REPROVADO
+  EM_ANALISE → CANCELADO
+end note
+@enduml
